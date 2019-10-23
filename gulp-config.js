@@ -2,7 +2,7 @@
  * @description 路径配置项
  * @author Hwg
  * @date 2019/10/23
-*/
+ */
 
 const path = require('path');
 const fs = require("fs");
@@ -11,10 +11,11 @@ const fs = require("fs");
 const argv = process.argv;
 const dirPath = argv[3];
 
-// 开发路径
-const devPath = './src/' + dirPath;
-// 输出路径
-const outPath = './dist/' + dirPath;
+// 基本路径
+const basePath = './src/';
+const outBasePath = './dist/';
+const devPath = basePath + dirPath;
+const outPath = outBasePath + dirPath;
 
 // 判断命令行是否输入
 if (!dirPath || dirPath === undefined) {
@@ -30,7 +31,8 @@ try{
 }
 
 module.exports = {
-    dirPath,
+    basePath,
+    outBasePath,
     devPath,
     outPath
 };

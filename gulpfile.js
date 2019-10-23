@@ -32,27 +32,27 @@ const concat = require('gulp-concat');
 const rev = require('gulp-rev');
 const revCollector = require('gulp-rev-collector');
 
-const {dirPath, devPath, outPath} = require('./gulp-config');
+const {basePath, outBasePath, devPath, outPath} = require('./gulp-config');
 
 // 启动服务
 gulp.task('connect', function () {
     connect.server({
-        root: './',
+        root: outBasePath,
         livereload: true
     });
 });
 
 // 删除文件
 gulp.task('clean', function () {
-    return gulp.src(['./dist/' + dirPath], {
+    return gulp.src([outPath], {
         read: false
     }).pipe(clean());
 });
 
 // 复制文件
 gulp.task('copy', function () {
-    return gulp.src(['./src/static/**'])
-        .pipe(gulp.dest('./dist/static'));
+    return gulp.src([basePath + 'static/**'])
+        .pipe(gulp.dest(outBasePath + 'static'));
 });
 
 // 编译html
@@ -80,8 +80,7 @@ gulp.task('html', function () {
         .pipe(fileinclude({
             prefix: '@@',
             basepath: '@file',
-            context:{
-            }
+            context: {}
         }))
         .pipe(gulp.dest(outPath))
         .pipe(connect.reload())
@@ -157,11 +156,12 @@ gulp.task('watch', function () {
     gulp.watch(devPath + '/img/**', ['imagemin']);
     gulp.watch(devPath + '/font/**', ['font']);
     gulp.watch(devPath + '/js/*.js', ['js']);
+    gulp.watch(basePath + '/static/**/*', ['copy']);
 });
 
 // 正式构建
 gulp.task('build', function () {
-    runSequence('connect', 'watch', 'clean', 'js', 'compass-dist', 'minicss', 'imagemin', 'font', 'html');
+    runSequence('connect', 'watch', 'clean', 'copy', 'js', 'compass-dist', 'minicss', 'imagemin', 'font', 'html');
 });
 
 gulp.task('default', ['build']);
