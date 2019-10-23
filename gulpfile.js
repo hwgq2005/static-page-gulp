@@ -4,7 +4,7 @@
  * @date 2019/10/22
  */
     // 备注
-    // 执行命令如: gulp --env 'activity',
+    // 执行命令如: gulp --env 'activity'、gulp --env 'shop/activity'
     // js/src.js：指定确切的文件名。
     // js/*.js：某个目录所有后缀名为js的文件。
     // js/**/*.js：某个目录及其所有子目录中的所有后缀名为js的文件。
