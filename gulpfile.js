@@ -37,7 +37,7 @@ const {dirPath, devPath, outPath} = require('./gulp-config');
 // 启动服务
 gulp.task('connect', function () {
     connect.server({
-        root: './dist/',
+        root: './',
         livereload: true
     });
 });
@@ -79,7 +79,9 @@ gulp.task('html', function () {
         .pipe(htmlmin(options))
         .pipe(fileinclude({
             prefix: '@@',
-            basepath: '@file'
+            basepath: '@file',
+            context:{
+            }
         }))
         .pipe(gulp.dest(outPath))
         .pipe(connect.reload())
@@ -149,17 +151,17 @@ gulp.task('font', function () {
 
 // 监听文件
 gulp.task('watch', function () {
-    gulp.watch(['./src/activity/*.html'], ['html']);
-    gulp.watch(['./src/activity/css/*.scss'], ['compass-dist']);
-    gulp.watch(['./src/activity/css/*.css'], ['minicss']);
-    gulp.watch(['./src/activity/img/**'], ['imagemin']);
-    gulp.watch(['./src/activity/font/**'], ['font']);
-    gulp.watch(['./src/activity/js/*.js'], ['js']);
+    gulp.watch(devPath + '/*.html', ['html']);
+    gulp.watch(devPath + '/css/*.scss', ['compass-dist']);
+    gulp.watch(devPath + '/css/*.css', ['minicss']);
+    gulp.watch(devPath + '/img/**', ['imagemin']);
+    gulp.watch(devPath + '/font/**', ['font']);
+    gulp.watch(devPath + '/js/*.js', ['js']);
 });
 
 // 正式构建
 gulp.task('build', function () {
-    runSequence('connect', 'watch', 'clean', 'copy', 'js', 'compass-dist', 'minicss', 'imagemin', 'font', 'html');
+    runSequence('connect', 'watch', 'clean', 'js', 'compass-dist', 'minicss', 'imagemin', 'font', 'html');
 });
 
 gulp.task('default', ['build']);
