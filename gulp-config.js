@@ -11,7 +11,7 @@ const fs = require("fs");
 const argv = process.argv;
 const dirPath = argv[3];
 
-// 基本路径
+// 基本路径配置
 const basePath = './src/';
 const outBasePath = './dist/';
 const devPath = basePath + dirPath;
