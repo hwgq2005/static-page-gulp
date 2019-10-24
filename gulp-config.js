@@ -24,7 +24,7 @@ if (!dirPath || dirPath === undefined) {
 
 // 禁止监听该目录
 let catalogArr = ['shop','recovery','tools'];
-if (catalogArr.indexOf(dirPath) >= 0) {
+if (catalogArr.indexOf(dirPath.split('/')[0]) >= 0) {
     throw new Error('禁止监听该目录:'+ dirPath);
 }
 
