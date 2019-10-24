@@ -152,22 +152,22 @@ gulp.task('font', function () {
 // 监听文件
 gulp.task('watch', function () {
 
-    watch(devPath + '/*.html', function(){
+    watch(devPath + '/*.html', function () {
         gulp.start('html');
     });
-    watch([devPath + '/css/*.scss',devPath + '/css/*.css'], function(){
-        gulp.start(['compass-dist','minicss']);
+    watch([devPath + '/css/*.scss', devPath + '/css/*.css'], function () {
+        gulp.start(['compass-dist', 'minicss']);
     });
-    watch(devPath + '/img/**', function(){
+    watch(devPath + '/img/**', function () {
         gulp.start('imagemin');
     });
-    watch(devPath + '/font/**', function(){
+    watch(devPath + '/font/**', function () {
         gulp.start('font');
     });
-    watch(devPath + '/js/*.js', function(){
+    watch(devPath + '/js/*.js', function () {
         gulp.start('js');
     });
-    watch(basePath + '/static/**/*', function(){
+    watch(basePath + '/static/**/*', function () {
         gulp.start('copy');
     });
 
@@ -175,7 +175,7 @@ gulp.task('watch', function () {
 
 // 正式构建
 gulp.task('build', function () {
-    runSequence('connect', 'watch', 'clean', 'copy', 'js', 'compass-dist', 'minicss', 'imagemin', 'font', 'html');
+    runSequence('connect', 'clean', 'copy', 'js', 'compass-dist', 'minicss', 'imagemin', 'font', 'html', 'watch');
 });
 
 gulp.task('default', ['build']);
