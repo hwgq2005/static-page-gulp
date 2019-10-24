@@ -590,6 +590,7 @@ a {
     background-color:rgba(178,178,178,1);
     color:#fff;
 }
+
 /*查看更多*/
 .page-more {
     color: #fff;
@@ -870,6 +871,7 @@ a {
     background-color: #ff2600;
 }
 
+
 .select-box .commodity-operation {
     display: -webkit-flex;
     display: flex;
@@ -879,7 +881,6 @@ a {
 .select-box .commodity-operation li {
     text-align: center;
 }
-
 .select-box .commodity-operation li a {
     display: block;
     height: 48px;

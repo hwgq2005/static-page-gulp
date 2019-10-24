@@ -25,6 +25,7 @@ const htmlmin = require('gulp-htmlmin');
 const sass = require('gulp-sass');
 const fileinclude = require('gulp-file-include');
 const autoprefixer = require('gulp-autoprefixer');
+const watch = require('gulp-watch');
 const sourcemaps = require('gulp-sourcemaps');
 const rename = require('gulp-rename');
 const gulpif = require('gulp-if');
@@ -150,13 +151,26 @@ gulp.task('font', function () {
 
 // 监听文件
 gulp.task('watch', function () {
-    gulp.watch(devPath + '/*.html', ['html']);
-    gulp.watch(devPath + '/css/*.scss', ['compass-dist']);
-    gulp.watch(devPath + '/css/*.css', ['minicss']);
-    gulp.watch(devPath + '/img/**', ['imagemin']);
-    gulp.watch(devPath + '/font/**', ['font']);
-    gulp.watch(devPath + '/js/*.js', ['js']);
-    gulp.watch(basePath + '/static/**/*', ['copy']);
+
+    watch(devPath + '/*.html', function(){
+        gulp.start('html');
+    });
+    watch([devPath + '/css/*.scss',devPath + '/css/*.css'], function(){
+        gulp.start(['compass-dist','minicss']);
+    });
+    watch(devPath + '/img/**', function(){
+        gulp.start('imagemin');
+    });
+    watch(devPath + '/font/**', function(){
+        gulp.start('font');
+    });
+    watch(devPath + '/js/*.js', function(){
+        gulp.start('js');
+    });
+    watch(basePath + '/static/**/*', function(){
+        gulp.start('copy');
+    });
+
 });
 
 // 正式构建
