@@ -22,6 +22,12 @@ if (!dirPath || dirPath === undefined) {
     throw new Error('请输入目录，比如：gulp --env "activity"');
 }
 
+// 禁止监听该目录
+let catalogArr = ['shop','recovery','tools'];
+if (catalogArr.indexOf(dirPath) >= 0) {
+    throw new Error('禁止监听该目录:'+ dirPath);
+}
+
 // 判断目录是否存在
 try{
     fs.statSync(path.join(__dirname,devPath));

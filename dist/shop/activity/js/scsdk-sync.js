@@ -1,1 +1,0 @@
-"use strict";!function(a){void 0===window.sensorsDataAnalytic201505&&(window.sensorsDataAnalytic201505=a.name,window[a.name]={para:a})}({name:"sensors",server_url:"http://shencedatareport.zhaoliangji.com/sa?project=production",use_app_track:!0,heatmap:{clickmap:"not_collect",scroll_notice_map:"not_collect"}});
