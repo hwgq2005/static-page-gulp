@@ -134,6 +134,7 @@ gulp.task('js', function () {
         // }))
         .pipe(uglify())
         .pipe(gulp.dest(outPath + '/js'))
+        .pipe(connect.reload())
 });
 
 // 压缩图片
@@ -141,12 +142,14 @@ gulp.task('imagemin', function () {
     return gulp.src(devPath + '/img/**/*.*')
     // .pipe(imagemin())
         .pipe(gulp.dest(outPath + '/img'))
+        .pipe(connect.reload())
 });
 
 // 字体文件
 gulp.task('font', function () {
     return gulp.src(devPath + '/font/**/*.*')
         .pipe(gulp.dest(outPath + '/font'))
+        .pipe(connect.reload())
 });
 
 // 监听文件
