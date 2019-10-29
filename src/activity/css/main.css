@@ -83,7 +83,6 @@ a {
 }
 .act-content {
     position: relative;
-    margin-top: -20px;
     padding-bottom: 20px;
     border-radius: 20px 20px 0 0;
     overflow: hidden;
@@ -163,7 +162,7 @@ a {
 .count-down {
     font-size: 15px;
     text-align: center;
-    padding: 15px 0 25px;
+    padding: 19px 0 14px;
     color: #ffffff;
 }
 
@@ -277,6 +276,61 @@ a {
     z-index: 9990;
 }
 
+/*中间模块*/
+.pro-module {
+    margin-bottom: 20px;
+    padding:0 12px;
+}
+
+.pro-module .tit {
+    text-align: center;
+}
+
+.pro-module .tit h1 {
+    display: inline-block;
+    margin: 0 4px;
+    font-size: 20px;
+    color: #fff;
+    vertical-align: middle;
+}
+
+.pro-module .tit .circle {
+    display: inline-block;
+    font-size: 0;
+}
+
+.pro-module .tit .circle span {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+.pro-module .tit .circle .circle1 {
+    background-color: rgba(255, 255, 255, .3);
+}
+
+.pro-module .tit .circle .circle2 {
+    background-color: #fff;
+}
+
+.pro-module .tit .circle span:last-child {
+    margin-left: -2px;
+}
+.pro-module .content{
+    margin-top: 10px;
+}
+
+/*三排布局*/
+.product-list{
+    margin:0 -3px;
+}
+.product-list li{
+    padding: 0 3px 6px;
+    float: left;
+    width: 33.33%;
+    box-sizing: border-box;
+}
 /*nav*/
 .act-nav {
 
@@ -395,7 +449,8 @@ a {
 }
 
 .act-classification li.active {
-    background-color: rgba(0, 0, 0, 0.2);
+    background-color: #fff;
+    color: #262626;
 }
 
 /*活动手机*/
@@ -590,7 +645,6 @@ a {
     background-color:rgba(178,178,178,1);
     color:#fff;
 }
-
 /*查看更多*/
 .page-more {
     color: #fff;
@@ -871,7 +925,6 @@ a {
     background-color: #ff2600;
 }
 
-
 .select-box .commodity-operation {
     display: -webkit-flex;
     display: flex;
@@ -881,6 +934,7 @@ a {
 .select-box .commodity-operation li {
     text-align: center;
 }
+
 .select-box .commodity-operation li a {
     display: block;
     height: 48px;

@@ -1,25 +1,3 @@
-
-body{
-    background-color: yellow;
-}
-
-.one{
-    .two{
-        background-color: red;
-    }
-    .three{
-
-    }
-}
-::placeholder {
-    color: gray;
-}
-
-.image {
-    background-image: url(image@1x.png);
-}
-@media (min-resolution: 2dppx) {
-    .image {
-        background-image: url(image@2x.png);
-    }
+.aa{
+    background-color: red;
 }

@@ -32,20 +32,42 @@ const gulpif = require('gulp-if');
 const concat = require('gulp-concat');
 const rev = require('gulp-rev');
 const revCollector = require('gulp-rev-collector');
+const browserSync = require('browser-sync').create();
 
 const {basePath, outBasePath, devPath, outPath} = require('./gulp-config');
 
 // 启动服务
 gulp.task('connect', function () {
-    connect.server({
-        root: outBasePath,
-        livereload: true
+    browserSync.init({
+        server: {
+            baseDir: outBasePath
+        }
+    }, function (err, bs) {
+        console.log(bs.options.getIn(['urls', 'local']));
     });
+    // connect.server({
+    //     root: outBasePath,
+    //     livereload: true
+    // });
 });
 
-// 删除文件
+// 删除整个目录
 gulp.task('clean', function () {
     return gulp.src([outPath], {
+        read: false
+    }).pipe(clean());
+});
+
+// 删除css目录
+gulp.task('delcss', function () {
+    return gulp.src([outPath + '/css'], {
+        read: false
+    }).pipe(clean());
+});
+
+// 删除js目录
+gulp.task('deljs', function () {
+    return gulp.src([outPath + '/js'], {
         read: false
     }).pipe(clean());
 });
@@ -76,36 +98,45 @@ const options = {
     minifyCSS: true
 };
 gulp.task('html', function () {
-    return gulp.src(devPath + '/*.html')
+    return gulp.src([devPath + '/rev/*.json', devPath + '/*.html'])
+        .pipe(revCollector({replaceReved: true}))
         .pipe(htmlmin(options))
         .pipe(fileinclude({
             prefix: '@@',
             basepath: '@file',
             context: {}
         }))
+
         .pipe(gulp.dest(outPath))
-        .pipe(connect.reload())
+        .pipe(browserSync.reload({
+            stream: true
+        }))
+        // .pipe(connect.reload())
         .pipe(notify({
             message: 'compress ok !'
         }));
 });
 
-// 压缩样式
-gulp.task('minicss', function () {
-    return gulp.src(devPath + '/css/*.css')
-        .pipe(autoprefixer())
-        .pipe(minicss())
-        .pipe(gulp.dest(outPath + '/css'))
-        .pipe(connect.reload())
-});
-
 // 编译sass
 gulp.task("sass", function () {
-    return gulp.src(devPath + '/css/*.scss')
+    return gulp.src([devPath + '/css/*.scss', devPath + '/css/*.css'])
         .pipe(sass().on('error', sass.logError))
         .pipe(autoprefixer())
+        .pipe(rev())
+        .pipe(minicss())
         .pipe(gulp.dest(outPath + '/css'))
-        .pipe(connect.reload());
+        .pipe(rev.manifest())
+        .pipe(rename({
+            suffix: '-css'
+        }))
+        .pipe(gulp.dest(devPath + '/rev'))
+        .pipe(browserSync.reload({
+            stream: true
+        }))
+        // .pipe(connect.reload())
+        .pipe(notify({
+            message: 'compress ok !'
+        }));
 });
 
 // sass + compass
@@ -116,12 +147,15 @@ gulp.task('compass-dist', function () {
             style: 'nested',
             css: outPath + '/css',
             sass: devPath + '/css',
-            image: devPath + '/img'
+            image: devPath + '/images'
         }))
         .pipe(autoprefixer())
         .pipe(minicss())
         .pipe(gulp.dest(outPath + '/css'))
         .pipe(connect.reload())
+        .pipe(notify({
+            message: 'compress ok !'
+        }));
 });
 
 
@@ -133,24 +167,44 @@ gulp.task('js', function () {
         //     suffix: '.min'
         // }))
         .pipe(uglify())
+        .pipe(rev())
         .pipe(gulp.dest(outPath + '/js'))
-        .pipe(connect.reload())
+        .pipe(rev.manifest())
+        .pipe(rename({
+            suffix: '-js'
+        }))
+        .pipe(gulp.dest(devPath + '/rev'))
+        .pipe(browserSync.reload({
+            stream: true
+        }))
+        // .pipe(connect.reload())
+        .pipe(notify({
+            message: 'compress ok !'
+        }));
 });
 
 // 压缩图片
 gulp.task('imagemin', function () {
-    return gulp.src(devPath + '/img/**/*.*')
+    return gulp.src(devPath + '/images/**/*.*')
     // .pipe(imagemin())
-        .pipe(gulp.dest(outPath + '/img'))
+        .pipe(gulp.dest(outPath + '/images'))
         .pipe(connect.reload())
 });
 
-// 字体文件
-gulp.task('font', function () {
-    return gulp.src(devPath + '/font/**/*.*')
-        .pipe(gulp.dest(outPath + '/font'))
+// 其他文件
+gulp.task('others', function () {
+    return gulp.src(devPath + '/others/**/*.*')
+        .pipe(gulp.dest(outPath + '/others'))
         .pipe(connect.reload())
 });
+
+// 生成版本号清单
+gulp.task('rev', function () {
+    return gulp.src([devPath + '/js/**', devPath + '/css/**'])
+        .pipe(rev.manifest())
+        .pipe(gulp.dest(devPath + '/rev'))
+});
+
 
 // 监听文件
 gulp.task('watch', function () {
@@ -159,16 +213,16 @@ gulp.task('watch', function () {
         gulp.start('html');
     });
     watch([devPath + '/css/*.scss', devPath + '/css/*.css'], function () {
-        gulp.start(['compass-dist', 'minicss']);
-    });
-    watch(devPath + '/img/**', function () {
-        gulp.start('imagemin');
-    });
-    watch(devPath + '/font/**', function () {
-        gulp.start('font');
+        runSequence('delcss', 'sass', 'html');
     });
     watch(devPath + '/js/*.js', function () {
-        gulp.start('js');
+        runSequence('deljs', 'js', 'html');
+    });
+    watch(devPath + '/images/**', function () {
+        gulp.start('imagemin');
+    });
+    watch(devPath + '/other/**', function () {
+        gulp.start('others');
     });
     watch(basePath + '/static/**/*', function () {
         gulp.start('copy');
@@ -178,7 +232,7 @@ gulp.task('watch', function () {
 
 // 正式构建
 gulp.task('build', function () {
-    runSequence('connect', 'clean', 'copy', 'js', 'compass-dist', 'minicss', 'imagemin', 'font', 'html', 'watch');
+    runSequence('connect', 'clean', 'copy', 'js', 'sass', 'others', 'rev', 'html', 'watch');
 });
 
 gulp.task('default', ['build']);

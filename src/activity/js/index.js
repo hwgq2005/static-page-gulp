@@ -12,6 +12,7 @@
     // var phost = 'https://prepanda.huodao.hk';
     // var staticHost = 'https://prefrontstatic.zhaoliangji.com';
 
+    var one = 12;
     // 正式环境
     var actHost = 'https://act.zhaoliangji.com';
     var proHost = 'https://product.zhaoliangji.com';

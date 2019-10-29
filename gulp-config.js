@@ -15,7 +15,7 @@ const dirPath = argv[3];
 const basePath = './src/';
 const outBasePath = './dist/';
 const devPath = basePath + dirPath;
-const outPath = outBasePath + dirPath;
+const outPath = outBasePath + 'pages/' + dirPath;
 
 // 判断命令行是否输入
 if (!dirPath || dirPath === undefined) {
@@ -23,16 +23,16 @@ if (!dirPath || dirPath === undefined) {
 }
 
 // 禁止监听该目录
-let catalogArr = ['shop','recovery','tools'];
+let catalogArr = ['shop', 'recovery', 'tools'];
 if (catalogArr.indexOf(dirPath.split('/')[0]) >= 0) {
-    throw new Error('禁止监听该目录:'+ dirPath);
+    throw new Error('禁止监听该目录:' + dirPath);
 }
 
 // 判断目录是否存在
-try{
-    fs.statSync(path.join(__dirname,devPath));
+try {
+    fs.statSync(path.join(__dirname, devPath));
     console.log('success!');
-}catch(e){
+} catch (e) {
     throw new Error('请输入正确的目录！');
 }
 
