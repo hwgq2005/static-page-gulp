@@ -45,10 +45,6 @@ gulp.task('connect', function () {
     }, function (err, bs) {
         console.log(bs.options.getIn(['urls', 'local']));
     });
-    // connect.server({
-    //     root: outBasePath,
-    //     livereload: true
-    // });
 });
 
 // 删除整个目录
@@ -111,7 +107,6 @@ gulp.task('html', function () {
         .pipe(browserSync.reload({
             stream: true
         }))
-        // .pipe(connect.reload())
         .pipe(notify({
             message: 'compress ok !'
         }));
@@ -133,7 +128,6 @@ gulp.task("sass", function () {
         .pipe(browserSync.reload({
             stream: true
         }))
-        // .pipe(connect.reload())
         .pipe(notify({
             message: 'compress ok !'
         }));
@@ -177,7 +171,6 @@ gulp.task('js', function () {
         .pipe(browserSync.reload({
             stream: true
         }))
-        // .pipe(connect.reload())
         .pipe(notify({
             message: 'compress ok !'
         }));
