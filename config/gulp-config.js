@@ -7,6 +7,10 @@
 const path = require('path');
 const fs = require("fs");
 
+// const notifier = require('node-notifier');
+// // String
+// notifier.notify('Message');
+
 // 获取参数
 const argv = process.argv;
 const dirPath = argv[3];
@@ -17,28 +21,39 @@ const outBasePath = './dist/';
 const devPath = basePath + dirPath;
 const outPath = outBasePath + 'pages/' + dirPath;
 
+// 错误信息
+let errMsg = '';
+
 // 判断命令行是否输入
 if (!dirPath || dirPath === undefined) {
+    errMsg = '请输入目录，比如：gulp --env "activity"';
     throw new Error('请输入目录，比如：gulp --env "activity"');
 }
 
 // 禁止监听该目录
 let catalogArr = ['shop', 'recovery', 'tools'];
-if (catalogArr.indexOf(dirPath.split('/')[0]) >= 0) {
+if (catalogArr.indexOf(dirPath.split('/')[0]) >= 0 && !errMsg) {
+    errMsg = '禁止监听该目录:' + dirPath;
     throw new Error('禁止监听该目录:' + dirPath);
 }
 
+
 // 判断目录是否存在
-try {
-    fs.statSync(path.join(__dirname, devPath));
-    console.log('success!');
-} catch (e) {
-    throw new Error('请输入正确的目录！');
+if (!errMsg){
+    try {
+        fs.statSync(path.join(__dirname, '.' + devPath));
+        console.log('success!');
+    } catch (e) {
+        errMsg = '请输入正确的目录' ;
+        throw new Error('请输入正确的目录！');
+
+    }
 }
 
 module.exports = {
     basePath,
     outBasePath,
     devPath,
-    outPath
+    outPath,
+    errMsg
 };

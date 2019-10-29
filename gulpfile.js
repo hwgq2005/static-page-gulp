@@ -26,15 +26,22 @@ const sass = require('gulp-sass');
 const fileinclude = require('gulp-file-include');
 const autoprefixer = require('gulp-autoprefixer');
 const watch = require('gulp-watch');
-const sourcemaps = require('gulp-sourcemaps');
-const rename = require('gulp-rename');
-const gulpif = require('gulp-if');
-const concat = require('gulp-concat');
 const rev = require('gulp-rev');
 const revCollector = require('gulp-rev-collector');
 const browserSync = require('browser-sync').create();
+const rename = require('gulp-rename');
 
-const {basePath, outBasePath, devPath, outPath} = require('./gulp-config');
+// const sourcemaps = require('gulp-sourcemaps');
+// const gulpif = require('gulp-if');
+// const concat = require('gulp-concat');
+
+const {
+    basePath,
+    outBasePath,
+    devPath,
+    outPath
+} = require('./config/gulp-config');
+
 
 // 启动服务
 gulp.task('connect', function () {
