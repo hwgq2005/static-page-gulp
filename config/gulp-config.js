@@ -15,6 +15,7 @@ const fs = require("fs");
 const argv = process.argv;
 const dirPath = argv[3];
 
+
 // 基本路径配置
 const basePath = './src/';
 const outBasePath = './dist/';
@@ -26,20 +27,19 @@ let errMsg = '';
 
 // 判断命令行是否输入
 if (!dirPath || dirPath === undefined) {
-    errMsg = '请输入目录，比如：gulp --env "activity"';
-    throw new Error('请输入目录，比如：gulp --env "activity"');
+    errMsg = '请输入目录，比如：npm run dev "activity"';
+    throw new Error('请输入目录，比如：npm run dev "activity"');
 }
 
 // 禁止监听该目录
 let catalogArr = ['shop', 'recovery', 'tools'];
-if (catalogArr.indexOf(dirPath.split('/')[0]) >= 0 && !errMsg) {
+if (dirPath && catalogArr.indexOf(dirPath.split('/')[0]) >= 0 && !errMsg) {
     errMsg = '禁止监听该目录:' + dirPath;
     throw new Error('禁止监听该目录:' + dirPath);
 }
 
-
 // 判断目录是否存在
-if (!errMsg){
+if (dirPath && !errMsg){
     try {
         fs.statSync(path.join(__dirname, '.' + devPath));
         console.log('success!');

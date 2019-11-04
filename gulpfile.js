@@ -30,6 +30,7 @@ const rev = require('gulp-rev');
 const revCollector = require('gulp-rev-collector');
 const browserSync = require('browser-sync').create();
 const rename = require('gulp-rename');
+const preprocess = require("gulp-preprocess");
 
 // const sourcemaps = require('gulp-sourcemaps');
 // const gulpif = require('gulp-if');
@@ -102,6 +103,12 @@ const options = {
 };
 gulp.task('html', function () {
     return gulp.src([devPath + '/rev/*.json', devPath + '/*.html'])
+        .pipe(preprocess({
+            context: {
+                // 此处可接受来自调用命令的 NODE_ENV 参数，默认为 development 开发测试环境
+                NODE_ENV: process.env.NODE_ENV || 'development',
+            }
+        }))
         .pipe(revCollector({replaceReved: true}))
         .pipe(htmlmin(options))
         .pipe(fileinclude({
@@ -119,10 +126,9 @@ gulp.task('html', function () {
         }));
 });
 
-// 编译sass
-gulp.task("sass", function () {
-    return gulp.src([devPath + '/css/*.scss', devPath + '/css/*.css'])
-        .pipe(sass().on('error', sass.logError))
+// 编译css
+gulp.task("css", function () {
+    return gulp.src([devPath + '/css/*.css'])
         .pipe(autoprefixer())
         .pipe(rev())
         .pipe(minicss())
@@ -141,19 +147,21 @@ gulp.task("sass", function () {
 });
 
 // sass + compass
-gulp.task('compass-dist', function () {
+gulp.task('sass', function () {
     return gulp.src([devPath + '/css/*.scss'])
         .pipe(compass({
-            comments: false,
-            style: 'nested',
-            css: outPath + '/css',
+            css: devPath + '/css',
             sass: devPath + '/css',
             image: devPath + '/images'
         }))
-        .pipe(autoprefixer())
-        .pipe(minicss())
-        .pipe(gulp.dest(outPath + '/css'))
-        .pipe(connect.reload())
+        .on('error', function (error) {
+            // Would like to catch the error here
+            console.log(error);
+            this.emit('end');
+        })
+        .pipe(browserSync.reload({
+            stream: true
+        }))
         .pipe(notify({
             message: 'compress ok !'
         }));
@@ -163,7 +171,14 @@ gulp.task('compass-dist', function () {
 // 编译js
 gulp.task('js', function () {
     return gulp.src([devPath + '/js/*.js'])
+        .pipe(preprocess({
+            context: {
+                // 此处可接受来自调用命令的 NODE_ENV 参数，默认为 development 开发测试环境
+                NODE_ENV: process.env.NODE_ENV || 'development',
+            }
+        }))
         .pipe(babel())
+
         // .pipe(rename({
         //     suffix: '.min'
         // }))
@@ -185,10 +200,16 @@ gulp.task('js', function () {
 
 // 压缩图片
 gulp.task('imagemin', function () {
-    return gulp.src(devPath + '/images/**/*.*')
-    // .pipe(imagemin())
-        .pipe(gulp.dest(outPath + '/images'))
-        .pipe(connect.reload())
+    if (process.env.NODE_ENV == 'production'){
+        return gulp.src(devPath + '/images/**/*.*')
+            .pipe(imagemin())
+            .pipe(gulp.dest(outPath + '/images'))
+            .pipe(connect.reload())
+    }else{
+        return gulp.src(devPath + '/images/**/*.*')
+            .pipe(gulp.dest(outPath + '/images'))
+            .pipe(connect.reload())
+    }
 });
 
 // 其他文件
@@ -213,7 +234,7 @@ gulp.task('watch', function () {
         gulp.start('html');
     });
     watch([devPath + '/css/*.scss', devPath + '/css/*.css'], function () {
-        runSequence('delcss', 'sass', 'html');
+        runSequence('delcss', 'sass', 'css', 'html');
     });
     watch(devPath + '/js/*.js', function () {
         runSequence('deljs', 'js', 'html');
@@ -232,7 +253,7 @@ gulp.task('watch', function () {
 
 // 正式构建
 gulp.task('build', function () {
-    runSequence('connect', 'clean', 'copy', 'js', 'sass', 'others', 'rev', 'html', 'watch');
+    runSequence('connect', 'clean', 'copy', 'js', 'sass', 'css', 'others', 'imagemin', 'rev', 'html', 'watch');
 });
 
 gulp.task('default', ['build']);

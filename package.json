@@ -4,7 +4,11 @@
   "version": "1.0.0",
   "author": "e <262281610@qq.com>",
   "private": true,
-  "scripts": {},
+  "scripts": {
+    "dev": "gulp --env",
+    "build": "set NODE_ENV=production&&gulp --env",
+    "build:pre": "set NODE_ENV=pre&&gulp --env"
+  },
   "dependencies": {
     "node-notifier": "^6.0.0"
   },
@@ -24,6 +28,7 @@
     "gulp-imagemin": "^6.1.1",
     "gulp-mini-css": "0.0.3",
     "gulp-notify": "^2.2.0",
+    "gulp-preprocess": "^3.0.3",
     "gulp-rename": "^1.2.2",
     "gulp-rev": "^7.1.0",
     "gulp-rev-append": "^0.1.8",
