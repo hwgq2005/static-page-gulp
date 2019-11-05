@@ -13,7 +13,6 @@
 
 const gulp = require('gulp');
 const babel = require('gulp-babel');
-const connect = require('gulp-connect');
 const runSequence = require('run-sequence');
 const clean = require('gulp-clean');
 const compass = require("gulp-compass");
@@ -36,6 +35,7 @@ const preprocess = require("gulp-preprocess");
 // const gulpif = require('gulp-if');
 // const concat = require('gulp-concat');
 
+const ENV = process.env.NODE_ENV || 'development';
 const {
     basePath,
     outBasePath,
@@ -106,7 +106,7 @@ gulp.task('html', function () {
         .pipe(preprocess({
             context: {
                 // 此处可接受来自调用命令的 NODE_ENV 参数，默认为 development 开发测试环境
-                NODE_ENV: process.env.NODE_ENV || 'development',
+                NODE_ENV: ENV
             }
         }))
         .pipe(revCollector({replaceReved: true}))
@@ -174,7 +174,7 @@ gulp.task('js', function () {
         .pipe(preprocess({
             context: {
                 // 此处可接受来自调用命令的 NODE_ENV 参数，默认为 development 开发测试环境
-                NODE_ENV: process.env.NODE_ENV || 'development',
+                NODE_ENV: ENV
             }
         }))
         .pipe(babel())
@@ -204,11 +204,15 @@ gulp.task('imagemin', function () {
         return gulp.src(devPath + '/images/**/*.*')
             .pipe(imagemin())
             .pipe(gulp.dest(outPath + '/images'))
-            .pipe(connect.reload())
+            .pipe(browserSync.reload({
+                stream: true
+            }))
     }else{
         return gulp.src(devPath + '/images/**/*.*')
             .pipe(gulp.dest(outPath + '/images'))
-            .pipe(connect.reload())
+            .pipe(browserSync.reload({
+                stream: true
+            }))
     }
 });
 
@@ -216,7 +220,9 @@ gulp.task('imagemin', function () {
 gulp.task('others', function () {
     return gulp.src(devPath + '/others/**/*.*')
         .pipe(gulp.dest(outPath + '/others'))
-        .pipe(connect.reload())
+        .pipe(browserSync.reload({
+            stream: true
+        }))
 });
 
 // 生成版本号清单

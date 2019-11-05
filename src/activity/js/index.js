@@ -1,24 +1,31 @@
 
-
 ;(function () {
+
+
+    // @if NODE_ENV='development'
     // 测试环境
-    // var actHost = 'http://testact.zhaoliangji.com';
-    // var proHost = 'http://testproduct.zhaoliangji.com';
-    // var phost = 'http://testpanda.huodao.hk';
-    // var staticHost = 'http://testfrontstatic.zhaoliangji.com';
+    var actHost = 'http://testact.zhaoliangji.com';
+    var proHost = 'http://testproduct.zhaoliangji.com';
+    var phost = 'http://testpanda.huodao.hk';
+    var staticHost = 'http://testfrontstatic.zhaoliangji.com';
+    // @endif
 
-    // 预发布环境
-    // var actHost = 'https://preact.zhaoliangji.com';
-    // var proHost = 'https://preproduct.zhaoliangji.com';
-    // var phost = 'https://prepanda.huodao.hk';
-    // var staticHost = 'https://prefrontstatic.zhaoliangji.com';
-
-    var one = 12;
+    // @if NODE_ENV='production'
     // 正式环境
     var actHost = 'https://act.zhaoliangji.com';
     var proHost = 'https://product.zhaoliangji.com';
     var phost = 'https://panda.huodao.hk';
     var staticHost = 'https://frontstatic.zhaoliangji.com';
+    // @endif
+
+    // @if NODE_ENV='pre'
+    // 预发布
+    var actHost = 'https://preact.zhaoliangji.com';
+    var proHost = 'https://preproduct.zhaoliangji.com';
+    var phost = 'https://prepanda.huodao.hk';
+    var staticHost = 'https://prefrontstatic.zhaoliangji.com';
+    // @endif
+
     var timer, timer1;
 
     // 价格是否错误
