@@ -6,8 +6,11 @@
 #### 1.命名规范
 
 假设我要开发一个工具H5，目录命名为：tool-xxx；
+
 假设我要开发一个商城的相关业务页面，目录命名为：shop-xxx、shop-act-xxx；
+
 假设我要开发一个回收的相关业务页面，目录命名为：recovery-xxx、recovery-act-xxx；
+
 假设我要开发一个租赁的相关业务页面，目录命名为：lease-xxx、lease-act-xxx；
 
 其它的以此类推。
