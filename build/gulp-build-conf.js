@@ -30,7 +30,7 @@ const {
     outPath
 } = require('../config/gulp-config');
 
-const ENV = process.env.NODE_ENV || 'development';
+const ENV = 'development';
 
 // 编译html
 const options = {
