@@ -37,7 +37,8 @@ const ENV = process.env.NODE_ENV || 'development';
 gulp.task('connect', function () {
     browserSync.init({
         server: {
-            baseDir: outBasePath
+            baseDir: outBasePath,
+            directory: true
         }
     }, function (err, bs) {
         console.log(bs.options.getIn(['urls', 'local']));
