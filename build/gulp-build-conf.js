@@ -17,7 +17,6 @@ const htmlmin = require('gulp-htmlmin');
 const sass = require('gulp-sass');
 const fileinclude = require('gulp-file-include');
 const autoprefixer = require('gulp-autoprefixer');
-const watch = require('gulp-watch');
 const rev = require('gulp-rev');
 const revCollector = require('gulp-rev-collector');
 const browserSync = require('browser-sync').create();
@@ -155,31 +154,6 @@ gulp.task('rev', function () {
     return gulp.src([devPath + '/js/**', devPath + '/css/**'])
         .pipe(rev.manifest())
         .pipe(gulp.dest(devPath + '/rev'))
-});
-
-
-// 监听文件
-gulp.task('watch', function () {
-
-    watch(devPath + '/*.html', function () {
-        gulp.start('html');
-    });
-    watch([devPath + '/css/*.scss', devPath + '/css/*.css'], function () {
-        runSequence('delcss', 'sass', 'css', 'html');
-    });
-    watch(devPath + '/js/*.js', function () {
-        runSequence('deljs', 'js', 'html');
-    });
-    watch(devPath + '/images/**', function () {
-        gulp.start('imagemin');
-    });
-    watch(devPath + '/other/**', function () {
-        gulp.start('others');
-    });
-    watch(basePath + '/static/**/*', function () {
-        gulp.start('copy');
-    });
-
 });
 
 // 正式构建
