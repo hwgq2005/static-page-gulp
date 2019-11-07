@@ -34,21 +34,21 @@ gulp.task('clean', function () {
     }).pipe(clean());
 });
 
-// 删除css目录
+// 单独删除css目录
 gulp.task('delcss', function () {
     return gulp.src([outPath + '/css'], {
         read: false
     }).pipe(clean());
 });
 
-// 删除js目录
+// 单独删除js目录
 gulp.task('deljs', function () {
     return gulp.src([outPath + '/js'], {
         read: false
     }).pipe(clean());
 });
 
-// 复制文件
+// 单独复制静态资源文件
 gulp.task('copy', function () {
     return gulp.src([basePath + 'static/**'])
         .pipe(gulp.dest(outBasePath + 'static'));
