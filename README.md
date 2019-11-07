@@ -72,6 +72,6 @@ var actHost = 'https://act.zhaoliangji.com'; // 正式环境
 var actHost = 'https://preact.zhaoliangji.com'; // 预发布
 // @endif
 ```
-#### 4.反馈
+#### 6.反馈
 
 大家如果用了遇到什么问题，及时反馈，大家一起来优化这个工程。
