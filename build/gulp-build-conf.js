@@ -23,6 +23,7 @@ const revCollector = require('gulp-rev-collector');
 const browserSync = require('browser-sync').create();
 const rename = require('gulp-rename');
 const preprocess = require("gulp-preprocess");
+const notifier = require('node-notifier');
 
 const {
     basePath,
@@ -108,6 +109,7 @@ gulp.task('sass', function () {
             image: devPath + '/images'
         }))
         .on('error', function (error) {
+            notifier.notify(error);
             console.log(error);
             this.emit('end');
         })

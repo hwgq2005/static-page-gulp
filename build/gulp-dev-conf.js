@@ -21,6 +21,7 @@ const sass = require('gulp-sass');
 const autoprefixer = require('gulp-autoprefixer');
 const watch = require('gulp-watch');
 const browserSync = require('browser-sync').create();
+const notifier = require('node-notifier');
 
 // const sourcemaps = require('gulp-sourcemaps');
 // const gulpif = require('gulp-if');
@@ -65,9 +66,6 @@ gulp.task("css", function () {
         .pipe(browserSync.reload({
             stream: true
         }))
-        .pipe(notify({
-            message: '编译完成！'
-        }));
 });
 
 // sass + compass
@@ -79,15 +77,13 @@ gulp.task('sass', function () {
             image: devPath + '/images'
         }))
         .on('error', function (error) {
+            notifier.notify(error);
             console.log(error);
             this.emit('end');
         })
         .pipe(browserSync.reload({
             stream: true
         }))
-        .pipe(notify({
-            message: '编译完成！'
-        }));
 });
 
 
@@ -95,13 +91,14 @@ gulp.task('sass', function () {
 gulp.task('js', function () {
     return gulp.src([devPath + '/js/*.js'])
         .pipe(babel())
+        .on('error', function (error) {
+            notifier.notify(error);
+            this.emit('end');
+        })
         .pipe(gulp.dest(outPath + '/js'))
         .pipe(browserSync.reload({
             stream: true
         }))
-        .pipe(notify({
-            message: '编译完成！'
-        }));
 });
 
 // 复制图片
