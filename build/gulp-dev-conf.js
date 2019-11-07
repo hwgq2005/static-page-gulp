@@ -1,5 +1,5 @@
 /**
- * @description gulp构建工程
+ * @description 开发环境工程
  * @author Hwg
  * @date 2019/11/7
 */
