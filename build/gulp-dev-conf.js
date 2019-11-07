@@ -30,7 +30,7 @@ const {
     basePath,
     devPath,
     outPath
-} = require('../config/gulp-config');
+} = require('../config/config-path');
 
 gulp.task('html', function () {
     return gulp.src([devPath + '/*.html'])

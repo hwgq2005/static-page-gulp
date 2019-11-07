@@ -28,7 +28,7 @@ const {
     basePath,
     devPath,
     outPath
-} = require('../config/gulp-config');
+} = require('../config/config-path');
 
 const ENV = 'development';
 
