@@ -6,7 +6,6 @@
 
 const gulp = require('gulp');
 const clean = require('gulp-clean');
-const browserSync = require('browser-sync').create();
 
 const {
     basePath,
@@ -15,17 +14,6 @@ const {
 } = require('./config/config-path');
 
 const ENV = process.env.NODE_ENV || 'development';
-
-// 启动服务
-gulp.task('connect', function () {
-    browserSync.init({
-        server: {
-            baseDir: outBasePath
-        }
-    }, function (err, bs) {
-        console.log(bs.options.getIn(['urls', 'local']));
-    });
-});
 
 // 删除整个目录
 gulp.task('clean', function () {

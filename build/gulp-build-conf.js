@@ -27,10 +27,22 @@ const preprocess = require("gulp-preprocess");
 const {
     basePath,
     devPath,
+    outBasePath,
     outPath
 } = require('../config/config-path');
 
-const ENV = 'development';
+const ENV = process.env.NODE_ENV || 'development';
+
+// 启动服务
+gulp.task('connect', function () {
+    browserSync.init({
+        server: {
+            baseDir: outBasePath
+        }
+    }, function (err, bs) {
+        console.log(bs.options.getIn(['urls', 'local']));
+    });
+});
 
 // 编译html
 const options = {
@@ -66,11 +78,7 @@ gulp.task('html', function () {
             basepath: '@file',
             context: {}
         }))
-
         .pipe(gulp.dest(outPath))
-        .pipe(browserSync.reload({
-            stream: true
-        }))
         .pipe(notify({
             message: 'compress ok !'
         }));
@@ -88,9 +96,6 @@ gulp.task("css", function () {
             suffix: '-css'
         }))
         .pipe(gulp.dest(devPath + '/rev'))
-        .pipe(browserSync.reload({
-            stream: true
-        }))
         .pipe(notify({
             message: 'compress ok !'
         }));
@@ -108,9 +113,6 @@ gulp.task('sass', function () {
             console.log(error);
             this.emit('end');
         })
-        .pipe(browserSync.reload({
-            stream: true
-        }))
         .pipe(notify({
             message: 'compress ok !'
         }));
@@ -135,9 +137,6 @@ gulp.task('js', function () {
             suffix: '-js'
         }))
         .pipe(gulp.dest(devPath + '/rev'))
-        .pipe(browserSync.reload({
-            stream: true
-        }))
         .pipe(notify({
             message: 'compress ok !'
         }));
@@ -148,18 +147,13 @@ gulp.task('imagemin', function () {
     return gulp.src(devPath + '/images/**/*.*')
         .pipe(imagemin())
         .pipe(gulp.dest(outPath + '/images'))
-        .pipe(browserSync.reload({
-            stream: true
-        }))
 });
 
 // 其他文件
 gulp.task('others', function () {
     return gulp.src(devPath + '/others/**/*.*')
         .pipe(gulp.dest(outPath + '/others'))
-        .pipe(browserSync.reload({
-            stream: true
-        }))
+
 });
 
 // 生成版本号清单
@@ -196,7 +190,7 @@ gulp.task('watch', function () {
 
 // 正式构建
 gulp.task('build', function () {
-    runSequence('connect','clean', 'copy', 'js', 'sass', 'css', 'others', 'imagemin', 'rev', 'html');
+    runSequence('clean', 'copy', 'js', 'sass', 'css', 'others', 'imagemin', 'rev', 'html','connect');
 });
 
 gulp.task('default', ['build']);

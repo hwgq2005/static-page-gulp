@@ -29,8 +29,21 @@ const browserSync = require('browser-sync').create();
 const {
     basePath,
     devPath,
+    outBasePath,
     outPath
 } = require('../config/config-path');
+
+
+// 启动服务
+gulp.task('connect', function () {
+    browserSync.init({
+        server: {
+            baseDir: outBasePath
+        }
+    }, function (err, bs) {
+        console.log(bs.options.getIn(['urls', 'local']));
+    });
+});
 
 gulp.task('html', function () {
     return gulp.src([devPath + '/*.html'])
@@ -132,7 +145,7 @@ gulp.task('watch', function () {
 
 // 正式构建
 gulp.task('build', function () {
-    runSequence('connect', 'clean', 'copy', 'js', 'sass', 'css', 'others', 'imagemin', 'html', 'watch');
+    runSequence('clean', 'copy', 'js', 'sass', 'css', 'others', 'imagemin', 'html', 'watch','connect');
 });
 
 gulp.task('default', ['build']);
