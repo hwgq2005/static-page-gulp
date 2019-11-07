@@ -5,7 +5,7 @@
   "author": "e <262281610@qq.com>",
   "private": true,
   "scripts": {
-    "dev": "gulp --env",
+    "dev": "set NODE_ENV=development&&gulp --env",
     "build": "set NODE_ENV=production&&gulp --env",
     "build:pre": "set NODE_ENV=pre&&gulp --env"
   },
@@ -31,7 +31,6 @@
     "gulp-preprocess": "^3.0.3",
     "gulp-rename": "^1.2.2",
     "gulp-rev": "^7.1.0",
-    "gulp-rev-append": "^0.1.8",
     "gulp-rev-collector": "^1.0.5",
     "gulp-sass": "^4.0.2",
     "gulp-sourcemaps": "^2.6.5",
