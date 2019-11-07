@@ -80,7 +80,7 @@ gulp.task('html', function () {
         }))
         .pipe(gulp.dest(outPath))
         .pipe(notify({
-            message: 'compress ok !'
+            message: '编译完成！'
         }));
 });
 
@@ -96,9 +96,6 @@ gulp.task("css", function () {
             suffix: '-css'
         }))
         .pipe(gulp.dest(devPath + '/rev'))
-        .pipe(notify({
-            message: 'compress ok !'
-        }));
 });
 
 // sass + compass
@@ -113,9 +110,6 @@ gulp.task('sass', function () {
             console.log(error);
             this.emit('end');
         })
-        .pipe(notify({
-            message: 'compress ok !'
-        }));
 });
 
 
@@ -137,9 +131,6 @@ gulp.task('js', function () {
             suffix: '-js'
         }))
         .pipe(gulp.dest(devPath + '/rev'))
-        .pipe(notify({
-            message: 'compress ok !'
-        }));
 });
 
 // 压缩图片

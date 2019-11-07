@@ -15,7 +15,7 @@ const {
 
 const ENV = process.env.NODE_ENV || 'development';
 
-// 删除整个目录
+// 删除整个监听目录
 gulp.task('clean', function () {
     return gulp.src([outPath], {
         read: false

@@ -52,7 +52,7 @@ gulp.task('html', function () {
             stream: true
         }))
         .pipe(notify({
-            message: 'compress ok !'
+            message: '编译完成！'
         }));
 });
 
@@ -65,7 +65,7 @@ gulp.task("css", function () {
             stream: true
         }))
         .pipe(notify({
-            message: 'compress ok !'
+            message: '编译完成！'
         }));
 });
 
@@ -85,7 +85,7 @@ gulp.task('sass', function () {
             stream: true
         }))
         .pipe(notify({
-            message: 'compress ok !'
+            message: '编译完成！'
         }));
 });
 
@@ -99,7 +99,7 @@ gulp.task('js', function () {
             stream: true
         }))
         .pipe(notify({
-            message: 'compress ok !'
+            message: '编译完成！'
         }));
 });
 
