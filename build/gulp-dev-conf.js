@@ -91,10 +91,6 @@ gulp.task('sass', function () {
 gulp.task('js', function () {
     return gulp.src([devPath + '/js/*.js'])
         .pipe(babel())
-        .on('error', function (error) {
-            notifier.notify(error);
-            this.emit('end');
-        })
         .pipe(gulp.dest(outPath + '/js'))
         .pipe(browserSync.reload({
             stream: true
