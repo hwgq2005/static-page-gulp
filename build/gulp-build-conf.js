@@ -65,18 +65,15 @@ const options = {
     minifyCSS: true
 };
 gulp.task('html', function () {
-    return gulp.src([devPath + 'rev/*.json', devPath + '**/*.html'])
+    return gulp.src([devPath + '/rev/*.json', devPath + '/*.html'])
         .pipe(preprocess({
             context: {
                 // 此处可接受来自调用命令的 NODE_ENV 参数，默认为 development 开发测试环境
                 NODE_ENV: ENV
             }
         }))
-        .pipe(revCollector({
-            replaceReved: true
-        }))
-
-        // .pipe(htmlmin(options))
+        .pipe(revCollector({replaceReved: true}))
+        .pipe(htmlmin(options))
         .pipe(fileinclude({
             prefix: '@@',
             basepath: '@file',
@@ -90,11 +87,11 @@ gulp.task('html', function () {
 
 // 编译css
 gulp.task("css", function () {
-    return gulp.src([devPath + '**/css/*.css'])
+    return gulp.src([devPath + '/css/*.css'])
         .pipe(autoprefixer())
         .pipe(rev())
         .pipe(minicss())
-        .pipe(gulp.dest(outPath))
+        .pipe(gulp.dest(outPath + '/css'))
         .pipe(rev.manifest())
         .pipe(rename({
             suffix: '-css'
@@ -104,7 +101,7 @@ gulp.task("css", function () {
 
 // sass + compass
 gulp.task('sass', function () {
-    return gulp.src([devPath + '**/css/*.scss'])
+    return gulp.src([devPath + '/css/*.scss'])
         .pipe(compass({
             css: devPath + '/css',
             sass: devPath + '/css',
@@ -120,7 +117,7 @@ gulp.task('sass', function () {
 
 // 编译js
 gulp.task('js', function () {
-    return gulp.src([devPath + '**/js/*.js'])
+    return gulp.src([devPath + '/js/*.js'])
         .pipe(preprocess({
             context: {
                 // 此处可接受来自调用命令的 NODE_ENV 参数，默认为 development 开发测试环境
@@ -130,33 +127,31 @@ gulp.task('js', function () {
         .pipe(babel())
         .pipe(uglify())
         .pipe(rev())
-        .pipe(gulp.dest(outPath))
+        .pipe(gulp.dest(outPath + '/js'))
         .pipe(rev.manifest())
         .pipe(rename({
             suffix: '-js'
         }))
         .pipe(gulp.dest(devPath + '/rev'))
-
 });
 
 // 压缩图片
 gulp.task('imagemin', function () {
-    return gulp.src(devPath + '**/images/**/*.*')
+    return gulp.src(devPath + '/images/**/*.*')
         // .pipe(imagemin())
-        .pipe(gulp.dest(outPath))
+        .pipe(gulp.dest(outPath + '/images'))
 });
 
 // 其他文件
 gulp.task('others', function () {
-    return gulp.src(devPath + '**/others/**/*.*')
-        .pipe(gulp.dest(outPath))
+    return gulp.src(devPath + '/others/**/*.*')
+        .pipe(gulp.dest(outPath + '/others'))
 
 });
 
-
 // 正式构建
 gulp.task('build', function () {
-    runSequence('clean', 'copy', 'js', 'sass', 'css', 'others', 'imagemin','html','connect');
+    runSequence('clean', 'copy', 'js', 'sass', 'css', 'others', 'imagemin', 'html', 'connect');
 });
 
 gulp.task('default', ['build']);

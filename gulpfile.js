@@ -18,7 +18,7 @@ const ENV = process.env.NODE_ENV || 'development';
 
 // 删除整个监听目录
 gulp.task('clean', function () {
-    return gulp.src([outPath,devPath + '/rev'], {
+    return gulp.src([outPath, devPath + '/rev', basePath + 'pages/rev'], {
         read: false
     }).pipe(clean());
 });
@@ -43,9 +43,20 @@ gulp.task('copy', function () {
         .pipe(gulp.dest(outBasePath + 'static'));
 });
 
+
+// 获取参数
+const argv = process.argv;
+const dirPath = argv[3] || '';
+
 // 判断是否正式环境
 if (ENV == 'development') {
     require("./build/gulp-dev-conf");
 } else {
-    require("./build/gulp-build-conf");
+    // 判断是否填写目录
+    if (dirPath) {
+        require("./build/gulp-build-conf");
+    } else {
+        require("./build/gulp-build-all-conf");
+    }
+
 }
