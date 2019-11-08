@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>进入电池保养</title>
+  <link rel="stylesheet" href="./css/reset.css">
+  <link rel="stylesheet" href="./css/maintain.css">
+  <link rel="stylesheet" href="./css/script.css">
+</head>
+<body>
+  <div id="app" v-cloak @touchstart="handleSorll">
+    <div class="container">
+      <div v-if="charge && status" class="charge">
+        <div class="status">
+          <div>您的电池状态: </div>
+          <div>目前电池电量: {{ charge.batteryLevel }}%</div>
+          <div>容量:
+            <!-- ios -->
+            <span v-if="iosModel">
+              {{ iphoneModel[deviceName.deviceName] || '--' }}
+            </span>
+            <!-- android -->
+            <span v-if="android">{{ charge.batteryCapacity }}mAh</span>
+          </div>
+          <div>电压: 
+            <!-- ios -->
+            <span v-if="iosModel">
+              <span v-if="charge.batteryLevel == 20">3.5V</span>
+              <span v-if="charge.batteryLevel > 20 && charge.batteryLevel < 80">3.7V</span>
+              <span v-if="charge.batteryLevel < 100 && charge.batteryLevel >= 80">3.8V</span>
+              <span v-if="charge.batteryLevel == 100">4.0V</span>
+            </span>
+            <!-- android -->
+            <span v-if="android">{{ charge.voltage }}mV</span>
+          </div>
+        </div>
+        <div class="point" >
+          <span v-if="charge.batteryState != 2">请先将手机充电！</span>
+          <span v-else @click="status = false">进入保养</span>
+        </div>
+      </div>
+      <!-- 进入保养 -->
+      <div v-if="!status" class="box">
+        <!-- id不能更改，引用js有用到 -->
+        <div id="console">
+          <button id="button">
+            Automate
+          </button>
+          <div id="txt"></div>SSH_Secure_Terminal_v3.2654.2 <br/></br>admin@wks05:~$ </br>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- <script src="https://cdn.bootcss.com/vConsole/3.3.4/vconsole.min.js"></script>
+  <script>
+    new VConsole();
+  </script> -->
+  <script src="/static/js/rem/rem.js"></script>
+  <script src="/static/js/vue/vue.min.js"></script>
+  <script src="/static/js/axios/axios.min.js"></script>
+  <script src="/static/js/sdk/zlj-js-sdk.min.js"></script>
+  <script src="/static/js/burying-point/buryPoint.js"></script>
+
+  <script src='http://cdn.staticfile.org/jquery/1.11.1/jquery.min.js' type='text/javascript'></script>
+  <script src='./js/script.js' type='text/javascript'></script> 
+  <script>
+    var app = new Vue({
+      el: '#app',
+      data() {
+        return {
+          charge: null,
+          iosModel: false,
+          android: false,
+          iphoneModel: {
+            'iPhone7,2': '1810mAh',
+            'iPhone8,2': '2915mAh',
+            'iPhone8,1': '1715mAh',
+            'iPhone8,2': '2750mAh',
+            'iPhone8,4': '1642mAh',
+            'iPhone9,1': '1960mAh',
+            'iPhone9,2': '2900mAh',
+            'iPhone10,1': '1821mAh',
+            'iPhone10,2': '2675mAh',
+            'iPhone10,3': '2716mAh',
+            'iPhone11,2': '2658mAh',
+            'iPhone11,4': '3174mAh',
+            'iPhone11,8': '2942mAh',
+          },
+          deviceName: '',
+          status: true,
+        }
+      },
+      mounted() {
+        // 设置title
+        zlj.configWebUI({
+          navColor: '#F5F5F5',
+          tintColor: '#000000',
+          hideTitleBottomLine: 0,
+          forbiddenDropDown: 0,
+          isHideNav: false
+        })
+        this.deviceName = zlj.getContextInfo()
+        // 获取原生数据
+        zlj.getBatteryInfo(data => {
+          this.charge = data
+        })
+        // 判断ios, android
+        if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.skipToNativeWithUrl) {
+          this.iosModel = true
+          zlj.hideShareButton(true)
+        } else if (window.control && window.control.skipToNativeWithUrl) {
+          this.android = true
+          zlj.hideShareButton(false)
+        }
+        // 监听变化
+        setInterval(() => {
+          zlj.getBatteryInfo(data => {
+            this.charge = data
+          })
+          if(this.charge.batteryLevel == 100) {
+            window.open('./charge.html')
+          }
+          if(this.charge.batteryState != 2) {
+            this.status = true
+          } else {
+            this.status = false
+          }
+        }, 2000)
+        zlj.switchRefresh(false)
+        this.handleTypee()
+      },
+      methods: {
+        // 代码滚动
+        handleTypee() {
+          // 启动文件
+          Typer.file='./others/kernel.txt';
+          // 初始化
+          Typer.init();
+          // 2s开始滚动
+          setTimeout(() => {
+            setInterval(function() { 
+              try {
+                Typer.addText($('#button'))
+              } catch(e) {}
+            }, 30)
+          }, 2000)
+        },
+        handleSorll(e) {
+          e.preventDefault()
+        }
+      }
+    })
+  </script>
+</body>
+</html>

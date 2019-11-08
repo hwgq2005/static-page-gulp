@@ -5,9 +5,9 @@
   "author": "e <262281610@qq.com>",
   "private": true,
   "scripts": {
-    "dev": "cross-env NODE_ENV=development && gulp --env",
-    "build": "cross-env NODE_ENV=production && gulp --env",
-    "build:pre": "cross-env NODE_ENV=pre && gulp --env"
+    "dev": "cross-env NODE_ENV=development gulp --env",
+    "build": "cross-env NODE_ENV=production gulp --env",
+    "build:pre": "cross-env NODE_ENV=pre gulp --env"
   },
   "dependencies": {
     "node-notifier": "^6.0.0"

@@ -13,22 +13,22 @@ const fs = require("fs");
 
 // 获取参数
 const argv = process.argv;
-const dirPath = argv[3];
+const dirPath = argv[3] || '';
 
 // 基本路径配置
 const basePath = './src/';
 const outBasePath = './dist/';
-const devPath = basePath + dirPath;
+const devPath = basePath + 'pages/' + dirPath;
 const outPath = outBasePath + 'pages/' + dirPath;
 
 // 错误信息
 let errMsg = '';
 
 // 判断命令行是否输入
-if (!dirPath || dirPath === undefined) {
-    errMsg = '请输入目录，比如：npm run dev "activity"';
-    throw new Error('请输入目录，比如：npm run dev "activity"');
-}
+// if (!dirPath || dirPath === undefined) {
+//     errMsg = '请输入目录，比如：npm run dev "activity"';
+//     throw new Error('请输入目录，比如：npm run dev "activity"');
+// }
 
 // 禁止监听该目录
 let catalogArr = ['shop', 'recovery', 'tools'];

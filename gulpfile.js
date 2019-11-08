@@ -8,6 +8,7 @@ const gulp = require('gulp');
 const clean = require('gulp-clean');
 
 const {
+    devPath,
     basePath,
     outBasePath,
     outPath
@@ -17,7 +18,7 @@ const ENV = process.env.NODE_ENV || 'development';
 
 // 删除整个监听目录
 gulp.task('clean', function () {
-    return gulp.src([outPath], {
+    return gulp.src([outPath,devPath + '/rev'], {
         read: false
     }).pipe(clean());
 });

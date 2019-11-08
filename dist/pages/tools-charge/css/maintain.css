@@ -1,0 +1,40 @@
+[v-cloak] {
+  display: none;
+}
+
+.container {
+  background: #000;
+  max-width: 7.5rem;
+  min-height: 100vh;
+  font-size: 0.32rem;
+  overflow-y: auto;
+  color: #fff;
+  position: relative;
+}
+
+.charge {
+  max-width: 7.5rem;
+  height: 100vh;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: center;
+      justify-content: center;
+  -ms-flex-align: center;
+      align-items: center;
+  position: relative;
+}
+
+.status {
+  position: absolute;
+  top: 0.64rem;
+  left: 0.64rem;
+  line-height: 0.42rem;
+}
+
+.point {
+  color: #FF1A1A;
+}
+
+.box {
+  overflow-x: hidden;
+}

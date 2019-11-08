@@ -1,0 +1,75 @@
+[v-cloak] {
+  display: none;
+}
+
+body {
+  background: #F5F5F5;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.container {
+  max-width: 7.5rem;
+  height: 100%;
+  margin: auto;
+  padding: 0.2rem 0.2rem 0.05rem 0.2rem;
+}
+
+.charge {
+  width: 100%;
+}
+
+.charge-li {
+  width: calc(100% - 0.56rem);
+  height: 0.88rem;
+  padding: 0.28rem 0.32rem 0.28rem 0.24rem;
+  background: #fff;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: justify;
+      justify-content: space-between;
+  margin-bottom: 0.24rem;
+  border-radius: 0.16rem;
+}
+
+.charge-li .left {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+      align-items: center;
+  -ms-flex-pack: center;
+      justify-content: center;
+}
+
+.charge-li .left .left-img {
+  width: 0.88rem;
+  height: 0.88rem;
+  margin-right: 0.16rem;
+}
+
+.charge-li .left span {
+  font-size: 0.34rem;
+  color: #000;
+}
+
+.charge-li .right {
+  width: 1.75rem;
+  height: 0.72rem;
+  background:rgba(26,173,25,1);
+  border-radius: 0.4rem;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+      align-items: center;
+}
+
+.charge-li .right img {
+  width: 0.6rem;
+  height: 0.42rem;
+  margin-right: 0.16rem;
+}
+
+.charge-li .right span {
+  font-size: 0.32rem;
+  color: #fff;
+}
