@@ -102,7 +102,7 @@ gulp.task("css", function () {
 
 // 编译sass
 gulp.task("sass", function () {
-    return gulp.src([devPath + '/css/*.scss', devPath + '/css/*.css'])
+    return gulp.src([devPath + '/css/*.css', devPath + '/css/*.scss'])
         .pipe(sass().on('error', sass.logError))
         .pipe(autoprefixer())
         .pipe(rev())

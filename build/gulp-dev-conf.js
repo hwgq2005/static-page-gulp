@@ -2,7 +2,7 @@
  * @description 开发环境工程
  * @author Hwg
  * @date 2019/11/7
-*/
+ */
     // 备注
     // 执行命令如: gulp --env 'activity'、gulp --env 'shop/activity'
     // js/src.js：指定确切的文件名。
@@ -70,7 +70,7 @@ gulp.task("css", function () {
 
 // 编译sass
 gulp.task("sass", function () {
-    return gulp.src([devPath + '/css/*.scss', devPath + '**/css/*.css'])
+    return gulp.src([devPath + '/css/*.css', devPath + '/css/*.scss'])
         .pipe(sass().on('error', sass.logError))
         .pipe(autoprefixer())
         .pipe(gulp.dest(outPath + '/css'))
@@ -109,11 +109,11 @@ gulp.task('js', function () {
 
 // 复制图片
 gulp.task('imagemin', function () {
-        return gulp.src(devPath + '/images/**/*.*')
-            .pipe(gulp.dest(outPath + '/images'))
-            .pipe(browserSync.reload({
-                stream: true
-            }))
+    return gulp.src(devPath + '/images/**/*.*')
+        .pipe(gulp.dest(outPath + '/images'))
+        .pipe(browserSync.reload({
+            stream: true
+        }))
 });
 
 // 其他文件
@@ -142,7 +142,7 @@ gulp.task('watch', function () {
     watch(devPath + '/other/**', function () {
         gulp.start('others');
     });
-    watch([basePath + '**/*','!./src/pages/**'], function () {
+    watch([basePath + '**/*', '!./src/pages/**'], function () {
         gulp.start('copy');
     });
     // watch(basePath + '/static/**/*', function () {
@@ -152,7 +152,7 @@ gulp.task('watch', function () {
 
 // 正式构建
 gulp.task('build', function () {
-    runSequence('clean', 'copy', 'js', 'sass', 'others', 'imagemin', 'html', 'watch','connect');
+    runSequence('clean', 'copy', 'js', 'sass', 'others', 'imagemin', 'html', 'watch', 'connect');
 });
 
 gulp.task('default', ['build']);
