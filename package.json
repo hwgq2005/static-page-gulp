@@ -7,6 +7,7 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=development gulp --env",
     "build": "cross-env NODE_ENV=production gulp --env",
+    "build:stage": "cross-env NODE_ENV=development gulp --env",
     "build:pre": "cross-env NODE_ENV=pre gulp --env"
   },
   "dependencies": {

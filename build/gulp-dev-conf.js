@@ -68,23 +68,33 @@ gulp.task("css", function () {
         }))
 });
 
-// sass + compass
-gulp.task('sass', function () {
-    return gulp.src([devPath + '/css/*.scss'])
-        .pipe(compass({
-            css: devPath + '/css',
-            sass: devPath + '/css',
-            image: devPath + '/images'
-        }))
-        .on('error', function (error) {
-            notifier.notify(error);
-            console.log(error);
-            this.emit('end');
-        })
+// 编译sass
+gulp.task("sass", function () {
+    return gulp.src([devPath + '/css/*.scss', devPath + '**/css/*.css'])
+        .pipe(sass().on('error', sass.logError))
+        .pipe(autoprefixer())
+        .pipe(gulp.dest(outPath + '/css'))
         .pipe(browserSync.reload({
             stream: true
         }))
 });
+// sass + compass
+// gulp.task('sass', function () {
+//     return gulp.src([devPath + '/css/*.scss'])
+//         .pipe(compass({
+//             css: devPath + '/css',
+//             sass: devPath + '/css',
+//             image: devPath + '/images'
+//         }))
+//         .on('error', function (error) {
+//             notifier.notify(error);
+//             console.log(error);
+//             this.emit('end');
+//         })
+//         .pipe(browserSync.reload({
+//             stream: true
+//         }))
+// });
 
 
 // 编译js
@@ -121,7 +131,7 @@ gulp.task('watch', function () {
         gulp.start('html');
     });
     watch([devPath + '/css/*.scss', devPath + '/css/*.css'], function () {
-        runSequence('delcss', 'sass', 'css', 'html');
+        runSequence('delcss', 'sass', 'html');
     });
     watch(devPath + '/js/*.js', function () {
         runSequence('deljs', 'js', 'html');
@@ -132,14 +142,17 @@ gulp.task('watch', function () {
     watch(devPath + '/other/**', function () {
         gulp.start('others');
     });
-    watch(basePath + '/static/**/*', function () {
+    watch([basePath + '**/*','!./src/pages/**'], function () {
         gulp.start('copy');
     });
+    // watch(basePath + '/static/**/*', function () {
+    //     gulp.start('copy');
+    // });
 });
 
 // 正式构建
 gulp.task('build', function () {
-    runSequence('clean', 'copy', 'js', 'sass', 'css', 'others', 'imagemin', 'html', 'watch','connect');
+    runSequence('clean', 'copy', 'js', 'sass', 'others', 'imagemin', 'html', 'watch','connect');
 });
 
 gulp.task('default', ['build']);

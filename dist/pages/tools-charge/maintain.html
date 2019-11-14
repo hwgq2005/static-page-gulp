@@ -1,72 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>进入电池保养</title>
-  <link rel="stylesheet" href="./css/reset.css">
-  <link rel="stylesheet" href="./css/maintain.css">
-  <link rel="stylesheet" href="./css/script.css">
-</head>
-<body>
-  <div id="app" v-cloak @touchstart="handleSorll">
-    <div class="container">
-      <div v-if="charge && status" class="charge">
-        <div class="status">
-          <div>您的电池状态: </div>
-          <div>目前电池电量: {{ charge.batteryLevel }}%</div>
-          <div>容量:
-            <!-- ios -->
-            <span v-if="iosModel">
-              {{ iphoneModel[deviceName.deviceName] || '--' }}
-            </span>
-            <!-- android -->
-            <span v-if="android">{{ charge.batteryCapacity }}mAh</span>
-          </div>
-          <div>电压: 
-            <!-- ios -->
-            <span v-if="iosModel">
-              <span v-if="charge.batteryLevel == 20">3.5V</span>
-              <span v-if="charge.batteryLevel > 20 && charge.batteryLevel < 80">3.7V</span>
-              <span v-if="charge.batteryLevel < 100 && charge.batteryLevel >= 80">3.8V</span>
-              <span v-if="charge.batteryLevel == 100">4.0V</span>
-            </span>
-            <!-- android -->
-            <span v-if="android">{{ charge.voltage }}mV</span>
-          </div>
-        </div>
-        <div class="point" >
-          <span v-if="charge.batteryState != 2">请先将手机充电！</span>
-          <span v-else @click="status = false">进入保养</span>
-        </div>
-      </div>
-      <!-- 进入保养 -->
-      <div v-if="!status" class="box">
-        <!-- id不能更改，引用js有用到 -->
-        <div id="console">
-          <button id="button">
-            Automate
-          </button>
-          <div id="txt"></div>SSH_Secure_Terminal_v3.2654.2 <br/></br>admin@wks05:~$ </br>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- <script src="https://cdn.bootcss.com/vConsole/3.3.4/vconsole.min.js"></script>
-  <script>
-    new VConsole();
-  </script> -->
-  <script src="/static/js/rem/rem.js"></script>
-  <script src="/static/js/vue/vue.min.js"></script>
-  <script src="/static/js/axios/axios.min.js"></script>
-  <script src="/static/js/sdk/zlj-js-sdk.min.js"></script>
-  <script src="/static/js/burying-point/buryPoint.js"></script>
-
-  <script src='http://cdn.staticfile.org/jquery/1.11.1/jquery.min.js' type='text/javascript'></script>
-  <script src='./js/script.js' type='text/javascript'></script> 
-  <script>
-    var app = new Vue({
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover"><meta http-equiv="X-UA-Compatible" content="ie=edge"><title>进入电池保养</title><link rel="stylesheet" href="./css/reset.css"><link rel="stylesheet" href="./css/maintain.css"><link rel="stylesheet" href="./css/script.css"></head><body><div id="app" v-cloak @touchstart="handleSorll"><div class="container"><div v-if="charge && status" class="charge"><div class="status"><div>您的电池状态:</div><div>目前电池电量: {{ charge.batteryLevel }}%</div><div>容量: <span v-if="iosModel">{{ iphoneModel[deviceName.deviceName] || '--' }} </span><span v-if="android">{{ charge.batteryCapacity }}mAh</span></div><div>电压: <span v-if="iosModel"><span v-if="charge.batteryLevel == 20">3.5V</span> <span v-if="charge.batteryLevel > 20 && charge.batteryLevel < 80">3.7V</span> <span v-if="charge.batteryLevel < 100 && charge.batteryLevel >= 80">3.8V</span> <span v-if="charge.batteryLevel == 100">4.0V</span> </span><span v-if="android">{{ charge.voltage }}mV</span></div></div><div class="point"><span v-if="charge.batteryState != 2">请先将手机充电！</span> <span v-else @click="status = false">进入保养</span></div></div><div v-if="!status" class="box"><div id="console"><button id="button">Automate</button><div id="txt"></div>SSH_Secure_Terminal_v3.2654.2<br><br>admin@wks05:~$<br></div></div></div></div><script src="/static/js/rem/rem.js"></script><script src="/static/js/vue/vue.min.js"></script><script src="/static/js/axios/axios.min.js"></script><script src="/static/js/sdk/zlj-js-sdk.min.js"></script><script src="/static/js/burying-point/buryPoint.js"></script><script src="http://cdn.staticfile.org/jquery/1.11.1/jquery.min.js"></script><script src="./js/script.js"></script><script>var app = new Vue({
       el: '#app',
       data() {
         return {
@@ -151,7 +83,4 @@
           e.preventDefault()
         }
       }
-    })
-  </script>
-</body>
-</html>
+    })</script></body></html>

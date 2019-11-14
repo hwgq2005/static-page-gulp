@@ -99,20 +99,38 @@ gulp.task("css", function () {
         .pipe(gulp.dest(devPath + '/rev'))
 });
 
-// sass + compass
-gulp.task('sass', function () {
-    return gulp.src([devPath + '/css/*.scss'])
-        .pipe(compass({
-            css: devPath + '/css',
-            sass: devPath + '/css',
-            image: devPath + '/images'
+
+// 编译sass
+gulp.task("sass", function () {
+    return gulp.src([devPath + '/css/*.scss', devPath + '/css/*.css'])
+        .pipe(sass().on('error', sass.logError))
+        .pipe(autoprefixer())
+        .pipe(rev())
+        .pipe(minicss())
+        .pipe(gulp.dest(outPath + '/css'))
+        .pipe(rev.manifest())
+        .pipe(rename({
+            suffix: '-css'
         }))
-        .on('error', function (error) {
-            notifier.notify(error);
-            console.log(error);
-            this.emit('end');
-        })
+        .pipe(gulp.dest(devPath + '/rev'))
+        .pipe(browserSync.reload({
+            stream: true
+        }))
 });
+// sass + compass
+// gulp.task('sass', function () {
+//     return gulp.src([devPath + '/css/*.scss'])
+//         .pipe(compass({
+//             css: devPath + '/css',
+//             sass: devPath + '/css',
+//             image: devPath + '/images'
+//         }))
+//         .on('error', function (error) {
+//             notifier.notify(error);
+//             console.log(error);
+//             this.emit('end');
+//         })
+// });
 
 
 // 编译js
@@ -151,7 +169,7 @@ gulp.task('others', function () {
 
 // 正式构建
 gulp.task('build', function () {
-    runSequence('clean', 'copy', 'js', 'sass', 'css', 'others', 'imagemin', 'html', 'connect');
+    runSequence('clean', 'copy', 'js', 'sass', 'others', 'imagemin', 'html', 'connect');
 });
 
 gulp.task('default', ['build']);

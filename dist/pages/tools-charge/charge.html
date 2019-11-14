@@ -1,44 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>充电完成</title>
-  <link rel="stylesheet" href="./css/reset.css">
-  <link rel="stylesheet" href="./css/charge.css">
-</head>
-<body>
-  <div id="app" v-cloak>
-    <div class="container">
-      <div class="header">
-        <div class="electricity">补电完成</div>
-        <div class="scale">电池电量比例：100%</div>
-      </div>
-      <div>
-        <div class="conter-header"></div>
-        <div class="conter">
-          <ul>
-            <li v-for="item of 10"></li>
-          </ul>
-        </div>
-      </div>
-      <div class="footer">
-        提示：请确保电池电量比例在60到75之间，电池 温度在70℃以下
-      </div>
-    </div>
-  </div>
-  <!-- <script src="https://cdn.bootcss.com/vConsole/3.3.4/vconsole.min.js"></script>
-  <script>
-    new VConsole();
-  </script> -->
-  <script src="/static/js/rem/rem.js"></script>
-  <script src="/static/js/vue/vue.min.js"></script>
-  <script src="/static/js/axios/axios.min.js"></script>
-  <script src="/static/js/sdk/zlj-js-sdk.min.js"></script>
-  <script src="/static/js/burying-point/buryPoint.js"></script>
-  <script>
-    var app = new Vue({
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover"><meta http-equiv="X-UA-Compatible" content="ie=edge"><title>充电完成</title><link rel="stylesheet" href="./css/reset.css"><link rel="stylesheet" href="./css/charge.css"></head><body><div id="app" v-cloak><div class="container"><div class="header"><div class="electricity">补电完成</div><div class="scale">电池电量比例：100%</div></div><div><div class="conter-header"></div><div class="conter"><ul><li v-for="item of 10"></li></ul></div></div><div class="footer">提示：请确保电池电量比例在60到75之间，电池 温度在70℃以下</div></div></div><script src="/static/js/rem/rem.js"></script><script src="/static/js/vue/vue.min.js"></script><script src="/static/js/axios/axios.min.js"></script><script src="/static/js/sdk/zlj-js-sdk.min.js"></script><script src="/static/js/burying-point/buryPoint.js"></script><script>var app = new Vue({
       el: "#app",
       data() {
         return {}
@@ -59,7 +19,4 @@
         })
       },
       methods: {}
-    })
-  </script>
-</body>
-</html>
+    })</script></body></html>

@@ -1,46 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>手机电池保养</title>
-  <link rel="stylesheet" href="/pages/tools-charge/css/css.css">
-  <link rel="stylesheet" href="/pages/tools-charge/css/reset.css">
-  <link rel="stylesheet" href="/pages/tools-charge/css/main.css">
-</head>
-<body>
-  <div id="app" v-cloak>
-    <div class="container">
-      <ul class="charge">
-        <li class="charge-li" v-for="item of list" @click="handleJump">
-          <div class="left">
-            <img :src="item.logo" class="left-img" alt="">
-            <span>{{ item.name }}</span>
-          </div>
-          <div class="right">
-            <img src="http://image.huodao.hk/upload_img/20191101/06717083cb8eb29acb207fe8f8702d4c.png" alt="">
-            <span>充电</span>
-          </div>
-        </li>
-      </ul>
-    </div>
-    <!-- 广告位 -->
-    <div class="fix-bar" v-if="adInfo.ad_img" @click="navToCyc">
-      <img width="100%" :src="adInfo.ad_img" alt="">
-    </div>
-  </div>
-  <!-- <script src="https://cdn.bootcss.com/vConsole/3.3.4/vconsole.min.js"></script>
-  <script>
-    new VConsole();
-  </script> -->
-  <script src="/static/js/rem/rem.js"></script>
-  <script src="/static/js/vue/vue.min.js"></script>
-  <script src="/static/js/axios/axios.min.js"></script>
-  <script src="/static/js/sdk/zlj-js-sdk.min.js"></script>
-  <script src="/static/js/burying-point/buryPoint.js"></script>
-  <script>
-    // var baseUrl = 'http://testact.zhaoliangji.com/' // 测试环境
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover"><meta http-equiv="X-UA-Compatible" content="ie=edge"><title>手机电池保养</title><link rel="stylesheet" href="/pages/tools-charge/css/css-7095e1895b.css"><link rel="stylesheet" href="/pages/tools-charge/css/reset-cf46d258dc.css"><link rel="stylesheet" href="/pages/tools-charge/css/main-8b50545fb8.css"></head><body><div id="app" v-cloak><div class="container"><ul class="charge"><li class="charge-li" v-for="item of list" @click="handleJump"><div class="left"><img :src="item.logo" class="left-img" alt=""> <span>{{ item.name }}</span></div><div class="right"><img src="http://image.huodao.hk/upload_img/20191101/06717083cb8eb29acb207fe8f8702d4c.png" alt=""> <span>充电</span></div></li></ul></div><div class="fix-bar" v-if="adInfo.ad_img" @click="navToCyc"><img width="100%" :src="adInfo.ad_img" alt=""></div></div><script src="/static/js/rem/rem.js"></script><script src="/static/js/vue/vue.min.js"></script><script src="/static/js/axios/axios.min.js"></script><script src="/static/js/sdk/zlj-js-sdk.min.js"></script><script src="/static/js/burying-point/buryPoint.js"></script><script>// var baseUrl = 'http://testact.zhaoliangji.com/' // 测试环境
     var baseUrl = 'https://act.zhaoliangji.com/'    // 正式环境
     // 初始化埋点
     var buryPoint = buryPoint({
@@ -128,7 +86,4 @@
           window.open('./maintain.html')
         }
       }
-    })
-  </script>
-</body>
-</html>
+    })</script></body></html>

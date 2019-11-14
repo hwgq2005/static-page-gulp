@@ -25,13 +25,17 @@ const outPath = outBasePath + 'pages/' + dirPath;
 let errMsg = '';
 
 // 判断命令行是否输入
-// if (!dirPath || dirPath === undefined) {
-//     errMsg = '请输入目录，比如：npm run dev "activity"';
-//     throw new Error('请输入目录，比如：npm run dev "activity"');
+// const ENV = process.env.NODE_ENV || 'development';
+// if (ENV == 'development') {
+//     if (!dirPath || dirPath === undefined) {
+//         errMsg = '请输入目录，比如：npm run dev "activity"';
+//         throw new Error('请输入目录，比如：npm run dev "activity"');
+//     }
 // }
 
+
 // 禁止监听该目录
-let catalogArr = ['shop', 'recovery', 'tools'];
+let catalogArr = ['shop', 'recovery', 'tools', 'static'];
 if (dirPath && catalogArr.indexOf(dirPath.split('/')[0]) >= 0 && !errMsg) {
     errMsg = '禁止监听该目录:' + dirPath;
     throw new Error('禁止监听该目录:' + dirPath);
