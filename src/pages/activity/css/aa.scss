@@ -1,3 +1,7 @@
-.aa{
-    background-color: red;
+$font-size-base: 75;
+@function rem($px){
+    @return $px/$font-size-base+rem;
+}
+.aa {
+    height: rem(28);
 }
