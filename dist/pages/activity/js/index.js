@@ -1,3 +1,4 @@
+'use strict';
 
 ;(function () {
 
@@ -39,17 +40,13 @@
         el: '#app',
         data: {
 
-            groceryList: [
-                { id: 0, text: '蔬菜' },
-                { id: 1, text: '奶酪' },
-                { id: 2, text: '随便其它什么人吃的东西' }
-            ],
+            groceryList: [{ id: 0, text: '蔬菜' }, { id: 1, text: '奶酪' }, { id: 2, text: '随便其它什么人吃的东西' }],
 
             // 屏幕高度
             screenHeight: 0,
 
             // 是否显示页面
-            isShowPage:false,
+            isShowPage: false,
 
             floatData: [],
             floatTime: '',
@@ -166,16 +163,16 @@
         },
 
         watch: {
-            firstPrice(val) {
+            firstPrice: function firstPrice(val) {
                 this.priceSelectIndex = '';
                 this.bindPrice();
             },
-            lastPrice(val) {
+            lastPrice: function lastPrice(val) {
                 this.priceSelectIndex = '';
                 this.bindPrice();
             }
         },
-        created() {
+        created: function created() {
             var vm = this;
             this.activityId = this.getQueryString('activity_id');
             this.sk = this.getQueryString('sk');
@@ -189,13 +186,13 @@
             } else {
                 this.getDetailData();
             }
-            zlj.on('onPageShow',function(){
+            zlj.on('onPageShow', function () {
                 vm.enterEvent();
             });
 
             this.screenHeight = window.screen.height;
         },
-        mounted() {
+        mounted: function mounted() {
 
             clearTimeout(timer);
             clearTimeout(timer1);
@@ -204,25 +201,26 @@
             zlj.switchRefresh(false);
         },
 
+
         methods: {
 
             // 进入事件
-            enterEvent(){
+            enterEvent: function enterEvent() {
 
                 //进入页面时触发
                 if (window.__wxjs_environment === 'miniprogram') {
                     this.eventPoint('enter_h5_act_page', {
                         page_id: 10049,
-                        activity_id: this.activityId ,
+                        activity_id: this.activityId,
                         activity_name: document.title,
                         channel_id: 2
-                    })
-                }else{
+                    });
+                } else {
 
                     this.shencePoint('enter_activity_page', {
-                        activity_id: this.activityId ,
+                        activity_id: this.activityId,
                         activity_name: document.title,
-                        event_type:'pageview'
+                        event_type: 'pageview'
                     });
 
                     this.eventPoint('enter_h5_act_page', {
@@ -234,14 +232,16 @@
                 }
             },
 
+
             // 获取tab高度
-            getTabHeight() {
+            getTabHeight: function getTabHeight() {
                 var tabWrapper = document.getElementById('tab-box');
                 this.tabHeight = tabWrapper.offsetHeight;
             },
 
+
             //app交互方法
-            appMethods() {
+            appMethods: function appMethods() {
                 var vm = this;
                 // 登录
                 window.goLoginMsg = function (obj) {
@@ -255,18 +255,18 @@
                     vm.getDetailData();
                 };
                 // 注册
-                window.goLoginOutMsg = (msg) => {
+                window.goLoginOutMsg = function (msg) {
                     vm.getDetailData();
                 };
 
                 // 返回页面
-                window.onPageShow = function(){
-                }
+                window.onPageShow = function () {};
             },
 
+
             // 判断是否在app
-            isAPP() {
-                let status = false;
+            isAPP: function isAPP() {
+                var status = false;
                 // 调用app方法
                 if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.goLogin) {
                     // IOS
@@ -280,14 +280,14 @@
 
 
             // 获取浮动数据
-            getFloatData() {
+            getFloatData: function getFloatData() {
                 var vm = this;
                 var urlParams = {};
                 if (vm.floatTime) {
                     urlParams.current_time = vm.floatTime;
                 }
 
-                axios.get(phost + '/api/account/shaidan/get_float_data', {params: urlParams}).then(function (res) {
+                axios.get(phost + '/api/account/shaidan/get_float_data', { params: urlParams }).then(function (res) {
                     var data = res.data;
                     if (data.code == 1) {
                         if (data.data.length == 0) return;
@@ -301,27 +301,25 @@
                                 vm.floatStatus = true;
                                 setTimeout(function () {
                                     vm.floatStatus = false;
-                                }, 1500)
+                                }, 1500);
                             } else {
                                 vm.floatIndex = 0;
                                 vm.floatTime = data.data[vm.floatIndex].buy_time;
                                 vm.getFloatData();
                                 clearInterval(t);
                             }
-                        }, 1000 * 60)
+                        }, 1000 * 60);
 
                         setTimeout(function () {
                             vm.floatStatus = false;
-                        }, 1500)
-
+                        }, 1500);
                     }
-                })
-
-
+                });
             },
 
+
             // 获取详情数据
-            getDetailData() {
+            getDetailData: function getDetailData() {
                 var vm = this;
                 axios.get(actHost + '/api/theme/activity_detail?activity_id=' + vm.activityId).then(function (res) {
                     var data = res.data;
@@ -351,13 +349,13 @@
                         vm.$nextTick(function () {
                             vm.isShowPage = true;
                         });
-
                     }
-                })
+                });
             },
 
+
             // 判断优惠券是否领取过
-            isReceiveConpon(code) {
+            isReceiveConpon: function isReceiveConpon(code) {
                 var vm = this;
                 var params = {};
                 params.token = window.userData.token;
@@ -375,8 +373,9 @@
                 });
             },
 
+
             // 领取优惠券
-            receiveCoupon() {
+            receiveCoupon: function receiveCoupon() {
                 var vm = this;
                 if (vm.isReceiveRedStatus) return;
                 if (window.userData && window.userData.token) {
@@ -404,8 +403,7 @@
                                 coupon_name: vm.detailData.coupon_info.bonus_name,
                                 coupon_cost: vm.detailData.coupon_info.bonus_amount,
                                 event_type: 'click'
-                            })
-
+                            });
                         } else if (data.code == -5) {
                             Modal({
                                 title: '提示',
@@ -414,7 +412,7 @@
                                 confirmText: '知道了'
                             });
                             vm.isReceiveRedStatus = false;
-                        }else{
+                        } else {
                             Modal({
                                 title: '提示',
                                 content: data.msg,
@@ -439,19 +437,21 @@
                 }
             },
 
+
             // 获取分期乐数据
-            getFQLData() {
+            getFQLData: function getFQLData() {
                 var vm = this;
                 axios.get(actHost + '/api/fenqi/get_fenqile_quota').then(function (res) {
                     var data = res.data;
                     if (data.code === '1') {
                         vm.fqlData = data.data;
                     }
-                })
+                });
             },
 
+
             // 获取调起分期乐SDK参数接口
-            getFQLAttach() {
+            getFQLAttach: function getFQLAttach() {
                 if (window.userData && window.userData.token) {
                     if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.getFQLQuota) {
                         this.gotoFql();
@@ -481,13 +481,14 @@
                 }
             },
 
+
             // 进入分期乐页面
-            gotoFql() {
+            gotoFql: function gotoFql() {
                 var params = {};
                 params.token = window.userData.token;
                 params.phone = window.userData.mobile;
                 params.type = 1;
-                axios.get(actHost + '/api/fenqi/get_fenqile_attach', {params: params}).then(function (res) {
+                axios.get(actHost + '/api/fenqi/get_fenqile_attach', { params: params }).then(function (res) {
                     var data = res.data;
                     if (data.code === '1') {
                         var attachData = data.data;
@@ -512,8 +513,9 @@
                 });
             },
 
+
             // 倒计时
-            countTime(endTime) {
+            countTime: function countTime(endTime) {
                 var vm = this;
                 var date = new Date();
                 var now = date.getTime();
@@ -547,32 +549,32 @@
                         vm.countTime(endTime);
                     }, 1000);
                 }
-
             },
 
+
             // 毫秒倒计时
-            countTimeMs() {
+            countTimeMs: function countTimeMs() {
                 var vm = this;
                 if (vm.deadline) {
                     clearTimeout(timer1);
-                    return
+                    return;
                 }
                 vm.countTimedate.ms ? vm.countTimedate.ms-- : vm.countTimedate.ms = 9;
                 timer1 = setTimeout(vm.countTimeMs, 100);
             },
 
+
             // 价格排序
-            changePrice() {
+            changePrice: function changePrice() {
                 if (!this.listQuery.price_sort) {
-                    this.listQuery.price_sort = 'asc'
+                    this.listQuery.price_sort = 'asc';
                 } else if (this.listQuery.price_sort === 'asc') {
-                    this.listQuery.price_sort = 'desc'
+                    this.listQuery.price_sort = 'desc';
                 } else if (this.listQuery.price_sort === 'desc') {
-                    this.listQuery.price_sort = ''
+                    this.listQuery.price_sort = '';
                 }
                 this.isFull = false;
                 this.listQuery.page = 1;
-
 
                 if (this.listQuery.price_sort) {
 
@@ -584,11 +586,10 @@
                         is_cancel: 1
                     };
 
-
                     if (this.listQuery.price_sort === 'asc') {
-                        obj.filter_content.sort = '降序'
+                        obj.filter_content.sort = '降序';
                     } else if (this.listQuery.price_sort === 'desc') {
-                        obj.filter_content.sort = '升序'
+                        obj.filter_content.sort = '升序';
                     }
                     obj.filter_content = JSON.stringify(obj.filter_content);
                     this.shencePoint('click_filter_goods', obj);
@@ -598,8 +599,9 @@
                 this.getProductData();
             },
 
+
             // 切换是否在售
-            changeonlyOnsale() {
+            changeonlyOnsale: function changeonlyOnsale() {
 
                 this.isFull = false;
                 this.listQuery.page = 1;
@@ -624,15 +626,17 @@
                 this.eventPoint('click_filter_goods', obj);
             },
 
+
             // 是否打开筛选
-            openSearch() {
+            openSearch: function openSearch() {
                 this.searchBox = !this.searchBox;
                 document.body.classList.add('overflow-hidden');
                 // this.openBodyScroll();
             },
 
+
             // 隐藏筛选
-            hideSelectBox() {
+            hideSelectBox: function hideSelectBox() {
                 this.searchBox = false;
                 document.body.classList.remove('overflow-hidden');
                 // this.closeBodyScroll()
@@ -640,15 +644,16 @@
                 this.confirmSelect();
             },
 
+
             // 阻止事件
-            stopModal() {
+            stopModal: function stopModal() {
                 event.stopPropagation();
                 // event.preventDefault();
             },
 
 
             // 获取价格区间
-            getPriceList() {
+            getPriceList: function getPriceList() {
                 var vm = this;
                 axios.get(proHost + '/api/product/filter_price').then(function (res) {
                     var data = res.data;
@@ -658,8 +663,9 @@
                 });
             },
 
+
             // 选择价格区间
-            priceSelect(e) {
+            priceSelect: function priceSelect(e) {
 
                 var vm = this,
                     _currentTarget = e.currentTarget,
@@ -681,8 +687,7 @@
                     price = vm.priceList[vm.priceSelectIndex - 1];
                     vm.$set(vm.selectedLabelTemp, 'price', {
                         price: price
-                    })
-
+                    });
                 } else {
                     delete vm.selectedLabelTemp['price'];
                     price = '';
@@ -700,8 +705,9 @@
                 vm.lastPrice = '';
             },
 
+
             // 修改价格文本框
-            bindPrice() {
+            bindPrice: function bindPrice() {
                 // 价格区间 start
                 var vm = this;
                 var price = '';
@@ -732,28 +738,27 @@
                 } else {
                     vm.priceTemp = price;
                 }
-
-
             },
 
+
             // 获取筛选数据
-            getSelectData() {
+            getSelectData: function getSelectData() {
                 var vm = this;
                 var urlParams = {};
                 urlParams.type_id = vm.detailData.type_id;
                 urlParams.brand_id = vm.detailData.brand_id;
                 urlParams.model_id = vm.detailData.model_id;
-                axios.get(proHost + '/api/product/filter_attr', {params: urlParams}).then(function (res) {
+                axios.get(proHost + '/api/product/filter_attr', { params: urlParams }).then(function (res) {
                     var data = res.data;
                     if (data.code === '1') {
                         vm.selectData = data.data.main;
                     }
                 });
-
             },
 
+
             // 类型选择
-            selectLabel(event) {
+            selectLabel: function selectLabel(event) {
                 var vm = this;
                 var pnid = event.currentTarget.dataset.pnid;
                 var pvid = event.currentTarget.dataset.pvid;
@@ -788,11 +793,11 @@
                     if (!shaixuanLabelTemp[pnid]) shaixuanLabelTemp[pnid] = [];
                     shaixuanLabelTemp[pnid].push(name);
                 }
-
             },
 
+
             // 确定选择属性
-            confirmSelect() {
+            confirmSelect: function confirmSelect() {
                 var vm = this;
 
                 // 价格区间判断
@@ -842,8 +847,9 @@
                 // this.closeBodyScroll()
             },
 
+
             // 重置
-            cancelSelect(event) {
+            cancelSelect: function cancelSelect(event) {
 
                 var vm = this;
                 var type;
@@ -854,7 +860,7 @@
                     vm.selectData.map(function (item, pindex) {
                         item.filter_data.map(function (label, num) {
                             vm.$set(vm.selectData[pindex].filter_data[num], 'isactive', false);
-                        })
+                        });
                     });
                 }
                 selectParams.propKeyword = {};
@@ -874,8 +880,9 @@
                 vm.getProductData();
             },
 
+
             // 切换标签
-            changeSort(data) {
+            changeSort: function changeSort(data) {
                 this.sortItem = data;
                 this.isFull = false;
                 this.$set(this.listQuery, 'page', 1);
@@ -885,17 +892,18 @@
                 var leftElement = document.getElementById('tag-' + (data.index - 1));
                 var left = 0;
                 if (leftElement) left = leftElement.offsetLeft;
-                document.getElementById('act-classification').scrollLeft = left ;
+                document.getElementById('act-classification').scrollLeft = left;
                 this.getProductData();
             },
 
+
             // 获取商品列表
-            getProductData() {
+            getProductData: function getProductData() {
                 var vm = this;
                 var params = Object.assign({}, vm.listQuery);
                 params.activity_id = vm.activityId;
                 vm.isLoad = false;
-                axios.get(proHost + '/api/activity/activity_detail_product_list', {params: params}).then(function (res) {
+                axios.get(proHost + '/api/activity/activity_detail_product_list', { params: params }).then(function (res) {
                     var data = res.data;
 
                     if (data.code === '1') {
@@ -908,7 +916,6 @@
                             vm.$nextTick(function () {
                                 vm.getTabHeight();
                             });
-
                         } else {
                             vm.productData.push.apply(vm.productData, data.data.product_list);
                         }
@@ -919,13 +926,12 @@
                         }
                         vm.isLoad = true;
                     }
-
-                })
+                });
             },
 
 
             // 跳转详情
-            goToDetail(item, index) {
+            goToDetail: function goToDetail(item, index) {
                 if (item.product_status != 1) return;
                 var obj = {
                     pid: item.product_id,
@@ -952,13 +958,13 @@
 
                 var scobj = {
                     event_type: 'click',
-                    activity_id: this.activityId ,
+                    activity_id: this.activityId,
                     activity_name: document.title,
                     goods_id: item.product_id,
                     goods_name: item.product_name,
                     is_promotion: false,
                     operation_index: Number(index) + 1,
-                    business_type:5
+                    business_type: 5
                 };
 
                 if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.gotoPage) {
@@ -970,7 +976,7 @@
                     this.shencePoint('click_enter_goods_details', scobj);
                     window.control.gotoPage(JSON.stringify(obj));
                 } else if (window.__wxjs_environment === 'miniprogram') {
-                    wx.miniProgram.navigateTo({url: '../commodity-detail/commodity-detail?productId=' + obj.pid + '&sk=' + obj.sk});
+                    wx.miniProgram.navigateTo({ url: '../commodity-detail/commodity-detail?productId=' + obj.pid + '&sk=' + obj.sk });
                 } else {
                     Modal({
                         title: '提示',
@@ -981,8 +987,9 @@
                 }
             },
 
+
             // 跳转推荐活动
-            gotoAct(item, index) {
+            gotoAct: function gotoAct(item, index) {
                 var obj = {
                     page_id: 10049,
                     theme__id: item.id,
@@ -998,8 +1005,9 @@
                 // window.location.href = host + '/shop/act/active.html?activity_id=' + item.id;
             },
 
+
             // 跳转到配件
-            gotoPart(item, index) {
+            gotoPart: function gotoPart(item, index) {
 
                 var obj = {
                     type: 2,
@@ -1017,11 +1025,11 @@
                 var scObj = {
                     activity_id: this.activity_id,
                     activity_name: document.title,
-                    goods_id:item.product_id,
-                    goods_name:item.product_name,
-                    is_promotion:0,
-                    business_type:'1',
-                    event_type:'click'
+                    goods_id: item.product_id,
+                    goods_name: item.product_name,
+                    is_promotion: 0,
+                    business_type: '1',
+                    event_type: 'click'
                 };
                 if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.gotoPage) {
                     this.shencePoint('click_enter_goods_details', scObj);
@@ -1039,25 +1047,26 @@
                         confirmText: '知道了'
                     });
                 }
-
             },
 
+
             // 跳转到配件列表
-            gotoPartList(){
+            gotoPartList: function gotoPartList() {
 
                 var obj = {
                     activity_id: this.activity_id,
                     activity_name: document.title,
-                    operation_module:'查看更多',
-                    operation_area:'10049.1',
-                    event_type:'click'
+                    operation_module: '查看更多',
+                    operation_area: '10049.1',
+                    event_type: 'click'
                 };
                 this.shencePoint('click_app', obj);
                 window.location.href = 'zljgo://native_api?type=14&content=' + encodeURIComponent('{"categoryId":"19"}');
             },
 
+
             // 加载更多
-            loadMore() {
+            loadMore: function loadMore() {
                 var obj = {
                     page_id: 10049,
                     activity_id: this.activityId,
@@ -1070,10 +1079,12 @@
                 this.getProductData();
             },
 
+
             // 导航定位控制
-            tabControlHandle() {
+            tabControlHandle: function tabControlHandle() {
                 var vm = this;
-                window.onscroll = function () { //为了保证兼容性，这里取两个值，哪个有值取哪一个　　
+                window.onscroll = function () {
+                    //为了保证兼容性，这里取两个值，哪个有值取哪一个　　
                     var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
                     var tabWrapper = document.getElementById('tab-wrapper');
 
@@ -1093,15 +1104,16 @@
                 };
             },
 
+
             //跳转客服
-            openCustomerService() {
+            openCustomerService: function openCustomerService() {
 
                 if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.goContactIM) {
                     window.webkit.messageHandlers.goContactIM.postMessage({});
                 } else if (window.control && window.control.goContactIM) {
                     window.control.goContactIM();
                 } else {
-                    window.open('https://zhaoliangji.qiyukf.com/client?k=2ccdb2756aad2cafdc96c1351b4e71ec&wp=1', 'service')
+                    window.open('https://zhaoliangji.qiyukf.com/client?k=2ccdb2756aad2cafdc96c1351b4e71ec&wp=1', 'service');
                 }
 
                 //进入客服
@@ -1114,55 +1126,58 @@
 
                 //进入客服
                 this.shencePoint('click_online_customer_service', {
-                    activity_id: this.activityId ,
+                    activity_id: this.activityId,
                     activity_name: document.title,
                     event_type: 'click'
-                })
+                });
             },
 
+
             // 回到顶部
-            gotoTop() {
+            gotoTop: function gotoTop() {
                 window.scroll(0, 0);
             },
 
+
             // 获取参数
-            getQueryString(name) {
+            getQueryString: function getQueryString(name) {
                 var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
                 var r = window.location.search.slice(1).match(reg);
                 return r != null ? unescape(r[2]) : null;
             },
 
+
             //事件埋点
-            eventPoint(name, params) {
+            eventPoint: function eventPoint(name, params) {
                 if (this.gid) params.group_id = this.gid;
                 ta.track(name, params);
             },
 
+
             // 神策埋点
-            shencePoint(name, params) {
+            shencePoint: function shencePoint(name, params) {
                 if (this.gid) params.group_id = [this.gid];
 
-                console.log(sensors,'神策sdk');
+                console.log(sensors, '神策sdk');
                 sensors.track(name, params);
             },
 
+
             // 禁止滚动
-            openBodyScroll() {
+            openBodyScroll: function openBodyScroll() {
                 window.lockMaskScrollTop = document.scrollingElement.scrollTop || document.body.scrollTop;
                 document.body.classList.add('overflow-hidden');
                 document.body.style.top = -window.lockMaskScrollTop + "px";
             },
 
+
             // 取消滚动
-            closeBodyScroll() {
+            closeBodyScroll: function closeBodyScroll() {
                 if (document.body.classList.contains('overflow-hidden')) {
                     document.body.classList.remove('overflow-hidden');
                     document.scrollingElement.scrollTop = window.lockMaskScrollTop;
                 }
             }
-
-
         }
     });
 })();
-
