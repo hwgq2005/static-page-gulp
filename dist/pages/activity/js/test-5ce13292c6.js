@@ -1,1 +1,0 @@
-"use strict";Vue.component("todo-item",{props:["todo"],template:'<li @click="test(todo)">{{ todo.text }}</li>',methods:{test:function(t){console.log(t)}}}),Vue.component("todo-item",{props:["todo"],template:'<li @click="test(todo)">{{ todo.text }}</li>',methods:{test:function(t){console.log(t)}}});
