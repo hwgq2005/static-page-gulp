@@ -22,9 +22,12 @@ const autoprefixer = require('gulp-autoprefixer');
 const watch = require('gulp-watch');
 const browserSync = require('browser-sync').create();
 const notifier = require('node-notifier');
+const preprocess = require("gulp-preprocess");
+
 // const sourcemaps = require('gulp-sourcemaps');
 // const gulpif = require('gulp-if');
 // const concat = require('gulp-concat');
+const ENV = process.env.NODE_ENV || 'development';
 
 const {
     basePath,
@@ -48,6 +51,12 @@ gulp.task('connect', function () {
 
 gulp.task('html', function () {
     return gulp.src([devPath + '/*.html'])
+        .pipe(preprocess({
+            context: {
+                // 此处可接受来自调用命令的 NODE_ENV 参数，默认为 development 开发测试环境
+                NODE_ENV: ENV
+            }
+        }))
         .pipe(gulp.dest(outPath))
         .pipe(browserSync.reload({
             stream: true
@@ -99,6 +108,12 @@ gulp.task("sass", function () {
 // 编译js
 gulp.task('js', function () {
     return gulp.src([devPath + '/js/*.js'])
+        .pipe(preprocess({
+            context: {
+                // 此处可接受来自调用命令的 NODE_ENV 参数，默认为 development 开发测试环境
+                NODE_ENV: ENV
+            }
+        }))
         .pipe(babel())
         .pipe(gulp.dest(outPath + '/js'))
         .pipe(browserSync.reload({

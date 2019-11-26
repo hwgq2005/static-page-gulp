@@ -29,13 +29,25 @@
 |   └── detail.html // 其他页面，可以创建多个html页面
 ```
 
-#### 3.安装包
+#### 3.创建目录
+
+命令如下:
+```
+npm run new '文件名'
+```
+
+帮助文档:
+```
+npm run help
+```
+
+#### 4.安装包
 
 ```
 cnpm install
 ```
 
-#### 4.启动gulp
+#### 5.启动gulp
 
 需要在命令填写监听的目录，比如目录叫 `shop-act-xxx` ，不按规则来则会报错。
 
@@ -46,15 +58,15 @@ npm run dev "shop-act-xxx"
 
 预览环境：
 ```
-npm run build:pre "shop-act-xxx"
+npm run build:pre
 ```
 
 正式环境：
 ```
-npm run build "shop-act-xxx"
+npm run build
 ```
 
-#### 5.不同环境应用不同的域名
+#### 6.不同环境应用不同的域名
 
 使用的是`gulp-preprocess`包，具体文档：https://www.npmjs.com/package/gulp-preprocess
 
@@ -72,6 +84,6 @@ var actHost = 'https://act.zhaoliangji.com'; // 正式环境
 var actHost = 'https://preact.zhaoliangji.com'; // 预发布
 // @endif
 ```
-#### 6.反馈
+#### 7.反馈
 
 大家如果用了遇到什么问题，及时反馈，一起来优化这个工程。
