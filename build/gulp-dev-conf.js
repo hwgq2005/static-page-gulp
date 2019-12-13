@@ -49,6 +49,7 @@ gulp.task('connect', function () {
     });
 });
 
+
 gulp.task('html', function () {
     return gulp.src([devPath + '/*.html'])
         .pipe(preprocess({
@@ -61,9 +62,9 @@ gulp.task('html', function () {
         .pipe(browserSync.reload({
             stream: true
         }))
-        .pipe(notify({
-            message: '编译完成！'
-        }));
+    // .pipe(notify({
+    //     message: '编译完成！'
+    // }));
 });
 
 // 编译css
