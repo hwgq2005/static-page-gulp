@@ -37,13 +37,21 @@
      */
     BuryPoint.prototype.config = function(){
         // 神策配置
+
+        // @if NODE_ENV='development'
+        var serverUrl = 'https://shencedatareport.zhaoliangji.com/sa?project=default'; // 测试环境
+        var appid = '564269de83c04d1c96be2b22579913ec';
+        // @endif
+
+        // @if NODE_ENV='production' || NODE_ENV='pre'
+        var serverUrl = 'https://shencedatareport.zhaoliangji.com/sa?project=production'; // 正式环境
+        var appid = '29c58f5cfb524250badc849f4ebf1cf9';
+        // @endif
+
         this.sensorsOps = {
             sdk_url: 'https://frontstatic.zhaoliangji.com/static/js/shence/sensorsdata.min.js',
             name: 'sensors',
-            // 测试环境
-            // server_url:'http://shencedatareport.zhaoliangji.com/sa?project=default',
-            // 正式环境
-            server_url: 'http://shencedatareport.zhaoliangji.com/sa?project=production',
+            server_url: serverUrl,
             //配置打通 App 与 H5 的参数
             use_app_track: true,
             heatmap: {
@@ -58,11 +66,10 @@
 
         // 数数科技配置
         this.thinkingOps = {
-            appId: '29c58f5cfb524250badc849f4ebf1cf9', // 正式
-            // appId: '564269de83c04d1c96be2b22579913ec', //测试
+            appId: appid,
             name: 'ta', // 全局的调用变量名，可以任意设置，后续的调用使用该名称即可
             sdkUrl: 'https://panda.huodao.hk/admin/js/h5/thinkingdata.js', // 统计脚本URL
-            serverUrl: 'http://datareport.zhaoliangji.com/sync_js', // 数据上传的URL
+            serverUrl: 'https://datareport.zhaoliangji.com/sync_js', // 数据上传的URL
             send_method: 'image', // 数据上传方式
             useAppTrack: true, // 打通 APP 与 H5
             showLog: false
@@ -78,7 +85,7 @@
             this.thinking(this.thinkingOps);
         }else{
             var thisOps = options.type + 'Ops';
-            if (this[thisOps]) this[options.type](thisOps);
+            if (this[thisOps]) this[options.type](this[thisOps]);
         }
     };
 
@@ -147,12 +154,11 @@
      * @param params
      */
     BuryPoint.prototype.send = function (name, params) {
-
         var gid = _getQueryString('gid');
-        if (gid) params.group_id = gid;
+        if (gid) params.group_id = this.defaultOptions.type == 'sensors' ? [gid] : gid;
         params = _extend(params,this.defaultOptions.publicData);
-        if (ta) ta.track(name, params);
-        if (sensors) sensors.track(name, params);
+        if ((this.defaultOptions.type === 'thinking' && ta) || (this.defaultOptions.type === 'all' && ta)) ta.track(name, params);
+        if ((this.defaultOptions.type === 'sensors' && sensors) || (this.defaultOptions.type === 'all' && sensors)) sensors.track(name, params);
     };
 
     /**
