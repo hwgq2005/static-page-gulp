@@ -14,19 +14,12 @@
 const gulp = require('gulp');
 const babel = require('gulp-babel');
 const runSequence = require('run-sequence');
-const compass = require("gulp-compass");
-const imagemin = require('gulp-imagemin');
-const notify = require('gulp-notify');
 const sass = require('gulp-sass');
 const autoprefixer = require('gulp-autoprefixer');
 const watch = require('gulp-watch');
 const browserSync = require('browser-sync').create();
-const notifier = require('node-notifier');
 const preprocess = require("gulp-preprocess");
 
-// const sourcemaps = require('gulp-sourcemaps');
-// const gulpif = require('gulp-if');
-// const concat = require('gulp-concat');
 const ENV = process.env.NODE_ENV || 'development';
 
 const {

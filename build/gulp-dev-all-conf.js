@@ -7,15 +7,10 @@
 const gulp = require('gulp');
 const babel = require('gulp-babel');
 const runSequence = require('run-sequence');
-const clean = require('gulp-clean');
-const compass = require("gulp-compass");
-const imagemin = require('gulp-imagemin');
 const sass = require('gulp-sass');
 const autoprefixer = require('gulp-autoprefixer');
 const browserSync = require('browser-sync').create();
 const preprocess = require("gulp-preprocess");
-const notifier = require('node-notifier');
-const watch = require('gulp-watch');
 
 const {
     basePath,
@@ -55,7 +50,11 @@ gulp.task('html', function () {
 // 编译css
 gulp.task("css", function () {
     return gulp.src([devPath + '**/css/*.css'])
-        .pipe(autoprefixer())
+        .pipe(autoprefixer({
+            browsers: ['last 2 versions', 'Android >= 4.0'],
+            cascade: true,
+            remove:true
+        }))
         .pipe(gulp.dest(outPath))
         .pipe(browserSync.reload({
             stream: true
@@ -67,7 +66,11 @@ gulp.task("css", function () {
 gulp.task("sass", function () {
     return gulp.src([devPath + '**/css/*.css', devPath + '**/css/*.scss'])
         .pipe(sass().on('error', sass.logError))
-        .pipe(autoprefixer())
+        .pipe(autoprefixer({
+            browsers: ['last 2 versions', 'Android >= 4.0'],
+            cascade: true,
+            remove:true
+        }))
         .pipe(gulp.dest(outPath))
         .pipe(browserSync.reload({
             stream: true
