@@ -7,7 +7,6 @@
 const gulp = require('gulp');
 const clean = require('gulp-clean');
 const preprocess = require("gulp-preprocess");
-const gulpif = require('gulp-if');
 
 const {
     devPath,
@@ -48,17 +47,28 @@ gulp.task('deljs', function () {
 });
 
 // 单独复制静态资源文件
+
+const filter = require('gulp-filter');
 gulp.task('copy', function () {
+
+    // 需要匹配的文件
+    const jsFilter = filter([
+            'src/**/*.js'
+        ], {restore: true}
+    );
+
     return gulp.src([
         basePath + '**/*',
         '!./src/pages/**'
     ])
-        .pipe(gulpif('*.js', preprocess({
+        .pipe(jsFilter)
+        .pipe(preprocess({
             context: {
-                // 此处可接受来自调用命令的 NODE_ENV 参数，默认为 development 开发测试环境
                 NODE_ENV: ENV
             }
-        })))
+        }))
+        .pipe(gulp.dest(outBasePath))
+        .pipe(jsFilter.restore)
         .pipe(gulp.dest(outBasePath));
 });
 
