@@ -20,13 +20,7 @@ const ENV = process.env.NODE_ENV || 'development';
 // 删除整个监听目录
 gulp.task('clean', function () {
     return gulp.src([
-        outPath,
-        outBasePath + 'recovery',
-        outBasePath + 'shop',
-        outBasePath + 'tools',
-        outBasePath + 'static',
-        devPath + '/rev',
-        basePath + 'pages/rev'
+        outBasePath
     ], {
         read: false
     }).pipe(clean());
@@ -47,7 +41,6 @@ gulp.task('deljs', function () {
 });
 
 // 单独复制静态资源文件
-
 const filter = require('gulp-filter');
 gulp.task('copy', function () {
 
