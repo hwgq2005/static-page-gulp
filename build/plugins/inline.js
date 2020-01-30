@@ -9,7 +9,7 @@ var through = require('through2');
 function processor(params, content) {
     for (let item in params) {
         let reg = '/' + 'Env.' + item + '/g';
-        content = content.replace(eval(reg), JSON.stringify(params[item]));
+        content = content.replace(eval(reg), "'" + params[item] + "'");
     }
     return new Buffer(content);
 }
