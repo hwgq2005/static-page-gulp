@@ -83,7 +83,6 @@ a {
 .app{
     min-height:100vh;
     background-color: rgb(40, 42, 82);
-    background-color: red!important;
 }
 .act-content {
     position: relative;

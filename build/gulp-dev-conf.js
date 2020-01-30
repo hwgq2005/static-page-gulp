@@ -19,13 +19,12 @@ const autoprefixer = require('gulp-autoprefixer');
 const watch = require('gulp-watch');
 const browserSync = require('browser-sync').create();
 const preprocess = require("gulp-preprocess");
+const inline = require("./plugins/inline");
 
 const ENV = process.env.NODE_ENV || 'development';
-
-console.log( ENV == "development" ? "dev" : "build",1111);
 const envFormat = ENV == "development" ? "dev" : "build";
 const envConfig = require("../config/config." + envFormat);
-const test = require("./plugins/test");
+
 const {
     basePath,
     devPath,
@@ -96,7 +95,7 @@ gulp.task("sass", function () {
 // 编译js
 gulp.task('js', function () {
     return gulp.src([devPath + '/js/*.js'])
-        .pipe(test(envConfig))
+        .pipe(inline(envConfig))
         .pipe(preprocess({
             context: {
                 // 此处可接受来自调用命令的 NODE_ENV 参数，默认为 development 开发测试环境

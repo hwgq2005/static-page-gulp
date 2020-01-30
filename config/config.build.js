@@ -1,8 +1,8 @@
 var env = {
-    actHost: 'http://act.zhaoliangji.com',
-    proHost: 'http://product.zhaoliangji.com',
-    phost: 'http://panda.huodao.hk',
-    staticHost: 'http://frontstatic.zhaoliangji.com'
+    actHost: 'https://act.zhaoliangji.com',
+    proHost: 'https://product.zhaoliangji.com',
+    phost: 'https://panda.huodao.hk',
+    staticHost: 'https://frontstatic.zhaoliangji.com'
 };
 
 module.exports = env;

@@ -20,7 +20,7 @@ const rename = require('gulp-rename');
 const preprocess = require("gulp-preprocess");
 const javascriptObfuscator = require('gulp-javascript-obfuscator');
 const browserSync = require('browser-sync').create();
-
+const inline = require("./plugins/inline");
 
 const {
     basePath,
@@ -30,7 +30,8 @@ const {
 } = require('../config/config-path');
 
 const ENV = process.env.NODE_ENV || 'development';
-
+const envFormat = ENV == "development" ? "dev" : "build";
+const envConfig = require("../config/config." + envFormat);
 // 启动服务
 gulp.task('connect', function () {
     browserSync.init({
@@ -127,6 +128,7 @@ gulp.task("sass", function () {
 // 编译js
 gulp.task('js', function () {
     return gulp.src([devPath + '**/js/*.js'])
+        .pipe(inline(envConfig))
         .pipe(preprocess({
             context: {
                 // 此处可接受来自调用命令的 NODE_ENV 参数，默认为 development 开发测试环境
