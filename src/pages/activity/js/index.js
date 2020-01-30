@@ -1,48 +1,4 @@
-
-(function flexible (window, document) {
-    var docEl = document.documentElement
-    var dpr = window.devicePixelRatio || 1
-    // adjust body font size
-    function setBodyFontSize () {
-        if (document.body) {
-
-            document.body.style.fontSize = (12 * dpr) + 'px'
-        }
-        else {
-            document.addEventListener('DOMContentLoaded', setBodyFontSize)
-        }
-    }
-    setBodyFontSize();
-
-    // set 1rem = viewWidth / 10
-    function setRemUnit () {
-        var rem = docEl.clientWidth / 10
-        docEl.style.fontSize = rem + 'px'
-    }
-
-    setRemUnit()
-
-    // reset rem unit on page resize
-    window.addEventListener('resize', setRemUnit)
-    window.addEventListener('pageshow', function (e) {
-        if (e.persisted) {
-            setRemUnit()
-        }
-    })
-
-    // detect 0.5px supports
-    if (dpr >= 2) {
-        var fakeBody = document.createElement('body')
-        var testElement = document.createElement('div')
-        testElement.style.border = '.5px solid transparent'
-        fakeBody.appendChild(testElement)
-        docEl.appendChild(fakeBody)
-        if (testElement.offsetHeight === 1) {
-            docEl.classList.add('hairlines')
-        }
-        docEl.removeChild(fakeBody)
-    }
-}(window, document))
+// console.log(process.env.NODE_ENV);
 
 ;(function () {
 
@@ -85,16 +41,16 @@
         data: {
 
             groceryList: [
-                { id: 0, text: '蔬菜' },
-                { id: 1, text: '奶酪' },
-                { id: 2, text: '随便其它什么人吃的东西' }
+                {id: 0, text: '蔬菜'},
+                {id: 1, text: '奶酪'},
+                {id: 2, text: '随便其它什么人吃的东西'}
             ],
 
             // 屏幕高度
             screenHeight: 0,
 
             // 是否显示页面
-            isShowPage:false,
+            isShowPage: false,
 
             floatData: [],
             floatTime: '',
@@ -234,7 +190,7 @@
             } else {
                 this.getDetailData();
             }
-            zlj.on('onPageShow',function(){
+            zlj.on('onPageShow', function () {
                 vm.enterEvent();
             });
 
@@ -252,22 +208,22 @@
         methods: {
 
             // 进入事件
-            enterEvent(){
+            enterEvent() {
 
                 //进入页面时触发
                 if (window.__wxjs_environment === 'miniprogram') {
                     this.eventPoint('enter_h5_act_page', {
                         page_id: 10049,
-                        activity_id: this.activityId ,
+                        activity_id: this.activityId,
                         activity_name: document.title,
                         channel_id: 2
                     })
-                }else{
+                } else {
 
                     this.shencePoint('enter_activity_page', {
-                        activity_id: this.activityId ,
+                        activity_id: this.activityId,
                         activity_name: document.title,
-                        event_type:'pageview'
+                        event_type: 'pageview'
                     });
 
                     this.eventPoint('enter_h5_act_page', {
@@ -305,7 +261,7 @@
                 };
 
                 // 返回页面
-                window.onPageShow = function(){
+                window.onPageShow = function () {
                 }
             },
 
@@ -459,7 +415,7 @@
                                 confirmText: '知道了'
                             });
                             vm.isReceiveRedStatus = false;
-                        }else{
+                        } else {
                             Modal({
                                 title: '提示',
                                 content: data.msg,
@@ -930,7 +886,7 @@
                 var leftElement = document.getElementById('tag-' + (data.index - 1));
                 var left = 0;
                 if (leftElement) left = leftElement.offsetLeft;
-                document.getElementById('act-classification').scrollLeft = left ;
+                document.getElementById('act-classification').scrollLeft = left;
                 this.getProductData();
             },
 
@@ -997,13 +953,13 @@
 
                 var scobj = {
                     event_type: 'click',
-                    activity_id: this.activityId ,
+                    activity_id: this.activityId,
                     activity_name: document.title,
                     goods_id: item.product_id,
                     goods_name: item.product_name,
                     is_promotion: false,
                     operation_index: Number(index) + 1,
-                    business_type:5
+                    business_type: 5
                 };
 
                 if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.gotoPage) {
@@ -1062,11 +1018,11 @@
                 var scObj = {
                     activity_id: this.activity_id,
                     activity_name: document.title,
-                    goods_id:item.product_id,
-                    goods_name:item.product_name,
-                    is_promotion:0,
-                    business_type:'1',
-                    event_type:'click'
+                    goods_id: item.product_id,
+                    goods_name: item.product_name,
+                    is_promotion: 0,
+                    business_type: '1',
+                    event_type: 'click'
                 };
                 if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.gotoPage) {
                     this.shencePoint('click_enter_goods_details', scObj);
@@ -1088,14 +1044,14 @@
             },
 
             // 跳转到配件列表
-            gotoPartList(){
+            gotoPartList() {
 
                 var obj = {
                     activity_id: this.activity_id,
                     activity_name: document.title,
-                    operation_module:'查看更多',
-                    operation_area:'10049.1',
-                    event_type:'click'
+                    operation_module: '查看更多',
+                    operation_area: '10049.1',
+                    event_type: 'click'
                 };
                 this.shencePoint('click_app', obj);
                 window.location.href = 'zljgo://native_api?type=14&content=' + encodeURIComponent('{"categoryId":"19"}');
@@ -1159,7 +1115,7 @@
 
                 //进入客服
                 this.shencePoint('click_online_customer_service', {
-                    activity_id: this.activityId ,
+                    activity_id: this.activityId,
                     activity_name: document.title,
                     event_type: 'click'
                 })
@@ -1187,7 +1143,7 @@
             shencePoint(name, params) {
                 if (this.gid) params.group_id = [this.gid];
 
-                console.log(sensors,'神策sdk');
+                console.log(sensors, '神策sdk');
                 sensors.track(name, params);
             },
 

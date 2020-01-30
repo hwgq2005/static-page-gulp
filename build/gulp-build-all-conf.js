@@ -7,7 +7,6 @@
 const gulp = require('gulp');
 const babel = require('gulp-babel');
 const runSequence = require('run-sequence');
-const clean = require('gulp-clean');
 const minicss = require('gulp-mini-css');
 const uglify = require('gulp-uglify');
 const imagemin = require('gulp-imagemin');
@@ -17,10 +16,11 @@ const fileinclude = require('gulp-file-include');
 const autoprefixer = require('gulp-autoprefixer');
 const rev = require('gulp-rev');
 const revCollector = require('gulp-rev-collector');
-const browserSync = require('browser-sync').create();
 const rename = require('gulp-rename');
 const preprocess = require("gulp-preprocess");
 const javascriptObfuscator = require('gulp-javascript-obfuscator');
+const browserSync = require('browser-sync').create();
+
 
 const {
     basePath,
@@ -122,20 +122,6 @@ gulp.task("sass", function () {
             stream: true
         }))
 });
-// sass + compass
-// gulp.task('sass', function () {
-//     return gulp.src([devPath + '**/css/*.scss'])
-//         .pipe(compass({
-//             css: devPath + '/css',
-//             sass: devPath + '/css',
-//             image: devPath + '/images'
-//         }))
-//         .on('error', function (error) {
-//             notifier.notify(error);
-//             console.log(error);
-//             this.emit('end');
-//         })
-// });
 
 
 // 编译js

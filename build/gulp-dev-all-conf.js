@@ -53,7 +53,7 @@ gulp.task("css", function () {
         .pipe(autoprefixer({
             browsers: ['last 2 versions', 'Android >= 4.0'],
             cascade: true,
-            remove:true
+            remove: true
         }))
         .pipe(gulp.dest(outPath))
         .pipe(browserSync.reload({
@@ -69,32 +69,13 @@ gulp.task("sass", function () {
         .pipe(autoprefixer({
             browsers: ['last 2 versions', 'Android >= 4.0'],
             cascade: true,
-            remove:true
+            remove: true
         }))
         .pipe(gulp.dest(outPath))
         .pipe(browserSync.reload({
             stream: true
         }))
 });
-
-
-// sass + compass
-// gulp.task('sass', function () {
-//     return gulp.src([devPath + '**/css/*.scss'])
-//         .pipe(compass({
-//             css: devPath + '/css',
-//             sass: devPath + '/css',
-//             image: devPath + '/images'
-//         }))
-//         .on('error', function (error) {
-//             notifier.notify(error);
-//             console.log(error);
-//             this.emit('end');
-//         })
-//         .pipe(browserSync.reload({
-//             stream: true
-//         }))
-// });
 
 
 // 编译js

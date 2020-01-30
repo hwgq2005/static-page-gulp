@@ -63,7 +63,11 @@ gulp.task('html', function () {
 // 编译css
 gulp.task("css", function () {
     return gulp.src([devPath + '/css/*.css'])
-        .pipe(autoprefixer())
+        .pipe(autoprefixer({
+            browsers: ['last 2 versions', 'Android >= 4.0'],
+            cascade: true,
+            remove: true
+        }))
         .pipe(gulp.dest(outPath + '/css'))
         .pipe(browserSync.reload({
             stream: true
@@ -74,30 +78,16 @@ gulp.task("css", function () {
 gulp.task("sass", function () {
     return gulp.src([devPath + '/css/*.css', devPath + '/css/*.scss'])
         .pipe(sass().on('error', sass.logError))
-        .pipe(autoprefixer())
+        .pipe(autoprefixer({
+            browsers: ['last 2 versions', 'Android >= 4.0'],
+            cascade: true,
+            remove: true
+        }))
         .pipe(gulp.dest(outPath + '/css'))
         .pipe(browserSync.reload({
             stream: true
         }))
 });
-// sass + compass
-// gulp.task('sass', function () {
-//     return gulp.src([devPath + '/css/*.scss'])
-//         .pipe(compass({
-//             css: devPath + '/css',
-//             sass: devPath + '/css',
-//             image: devPath + '/images'
-//         }))
-//         .on('error', function (error) {
-//             notifier.notify(error);
-//             console.log(error);
-//             this.emit('end');
-//         })
-//         .pipe(browserSync.reload({
-//             stream: true
-//         }))
-// });
-
 
 // 编译js
 gulp.task('js', function () {
@@ -150,7 +140,7 @@ gulp.task('watch', function () {
     watch(devPath + '/other/**', function () {
         gulp.start('others');
     });
-    
+
     // 除了pages目录，其他目录修改的化回被复制过去
     watch([basePath + '**/*', '!./src/pages/**'], function () {
         gulp.start('copy');
