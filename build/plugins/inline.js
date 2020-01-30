@@ -14,7 +14,6 @@ function processor(params, content) {
     return new Buffer(content);
 }
 
-// 定义gulp插件主函数
 // params：调用插件传入的参数
 module.exports = (params) => {
 
