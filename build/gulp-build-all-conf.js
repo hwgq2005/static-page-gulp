@@ -89,7 +89,7 @@ gulp.task("css", function () {
         .pipe(autoprefixer({
             browsers: ['last 2 versions', 'Android >= 4.0'],
             cascade: true,
-            remove:true
+            remove: true
         }))
         .pipe(rev())
         .pipe(minicss())
@@ -108,7 +108,7 @@ gulp.task("sass", function () {
         .pipe(autoprefixer({
             browsers: ['last 2 versions', 'Android >= 4.0'],
             cascade: true,
-            remove:true
+            remove: true
         }))
         .pipe(rev())
         .pipe(minicss())

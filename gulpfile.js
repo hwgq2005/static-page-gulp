@@ -9,10 +9,8 @@ const clean = require('gulp-clean');
 const preprocess = require("gulp-preprocess");
 
 const {
-    devPath,
     basePath,
-    outBasePath,
-    outPath
+    outBasePath
 } = require('./config/config-path');
 
 const ENV = process.env.NODE_ENV || 'development';
@@ -22,20 +20,6 @@ gulp.task('clean', function () {
     return gulp.src([
         outBasePath
     ], {
-        read: false
-    }).pipe(clean());
-});
-
-// 单独删除css目录
-gulp.task('delcss', function () {
-    return gulp.src([outPath + '/css'], {
-        read: false
-    }).pipe(clean());
-});
-
-// 单独删除js目录
-gulp.task('deljs', function () {
-    return gulp.src([outPath + '/js'], {
         read: false
     }).pipe(clean());
 });

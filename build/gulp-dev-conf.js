@@ -139,10 +139,10 @@ gulp.task('watch', function () {
         gulp.start('html');
     });
     watch([devPath + '/css/*.scss', devPath + '/css/*.css'], function () {
-        runSequence('delcss', 'sass', 'html');
+        runSequence('sass', 'html');
     });
     watch(devPath + '/js/*.js', function () {
-        runSequence('deljs', 'js', 'html');
+        runSequence('js', 'html');
     });
     watch(devPath + '/images/**', function () {
         gulp.start('imagemin');
@@ -150,12 +150,12 @@ gulp.task('watch', function () {
     watch(devPath + '/other/**', function () {
         gulp.start('others');
     });
+    
+    // 除了pages目录，其他目录修改的化回被复制过去
     watch([basePath + '**/*', '!./src/pages/**'], function () {
         gulp.start('copy');
     });
-    // watch(basePath + '/static/**/*', function () {
-    //     gulp.start('copy');
-    // });
+
 });
 
 // 正式构建
