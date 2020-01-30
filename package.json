@@ -46,6 +46,7 @@
     "gulp-watch": "^5.0.1",
     "node-sass": "^4.5.0",
     "run-sequence": "^1.2.2",
+    "through2": "^3.0.1",
     "uppercamelcase": "^3.0.0"
   }
 }

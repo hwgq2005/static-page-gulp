@@ -1,6 +1,30 @@
 
 ;(function () {
 
+    console.log(2222);
+    // @if NODE_ENV='development'
+    // 测试环境
+    var actHost = 'http://testact.zhaoliangji.com';
+    var proHost = 'http://testproduct.zhaoliangji.com';
+    var phost = 'http://testpanda.huodao.hk';
+    var staticHost = 'http://testfrontstatic.zhaoliangji.com';
+    // @endif
+
+    // @if NODE_ENV='production'
+    // 正式环境
+    var actHost = 'https://act.zhaoliangji.com';
+    var proHost = 'https://product.zhaoliangji.com';
+    var phost = 'https://panda.huodao.hk';
+    var staticHost = 'https://frontstatic.zhaoliangji.com';
+    // @endif
+
+    // @if NODE_ENV='pre'
+    // 预发布
+    var actHost = 'https://preact.zhaoliangji.com';
+    var proHost = 'https://preproduct.zhaoliangji.com';
+    var phost = 'https://prepanda.huodao.hk';
+    var staticHost = 'https://prefrontstatic.zhaoliangji.com';
+    // @endif
 
     var timer, timer1;
 
@@ -264,7 +288,7 @@
                     urlParams.current_time = vm.floatTime;
                 }
 
-                axios.get(Env.phost + '/api/account/shaidan/get_float_data', {params: urlParams}).then(function (res) {
+                axios.get(phost + '/api/account/shaidan/get_float_data', {params: urlParams}).then(function (res) {
                     var data = res.data;
                     if (data.code == 1) {
                         if (data.data.length == 0) return;
@@ -300,7 +324,7 @@
             // 获取详情数据
             getDetailData() {
                 var vm = this;
-                axios.get(Env.actHost + '/api/theme/activity_detail?activity_id=' + vm.activityId).then(function (res) {
+                axios.get(actHost + '/api/theme/activity_detail?activity_id=' + vm.activityId).then(function (res) {
                     var data = res.data;
                     if (data.code === '1') {
                         vm.detailData = data.data;
@@ -339,7 +363,7 @@
                 var params = {};
                 params.token = window.userData.token;
                 params.bonus_code = code;
-                axios.post(Env.actHost + '/api/bonus/check_user_bonus_status', params).then(function (res) {
+                axios.post(actHost + '/api/bonus/check_user_bonus_status', params).then(function (res) {
                     var data = res.data;
                     if (data.code === '1') {
                         if (data.data.status == 1) {
@@ -361,7 +385,7 @@
                     params.token = window.userData.token;
                     params.bonus_code = vm.detailData.coupon_info.bonus_code;
                     params.activity_id = vm.activityId;
-                    axios.post(Env.actHost + '/api/bonus/draw_bonus', params).then(function (res) {
+                    axios.post(actHost + '/api/bonus/draw_bonus', params).then(function (res) {
                         var data = res.data;
                         if (data.code === '1') {
                             Modal({
@@ -419,7 +443,7 @@
             // 获取分期乐数据
             getFQLData() {
                 var vm = this;
-                axios.get(Env.actHost + '/api/fenqi/get_fenqile_quota').then(function (res) {
+                axios.get(actHost + '/api/fenqi/get_fenqile_quota').then(function (res) {
                     var data = res.data;
                     if (data.code === '1') {
                         vm.fqlData = data.data;
@@ -464,7 +488,7 @@
                 params.token = window.userData.token;
                 params.phone = window.userData.mobile;
                 params.type = 1;
-                axios.get(Env.actHost + '/api/fenqi/get_fenqile_attach', {params: params}).then(function (res) {
+                axios.get(actHost + '/api/fenqi/get_fenqile_attach', {params: params}).then(function (res) {
                     var data = res.data;
                     if (data.code === '1') {
                         var attachData = data.data;
@@ -627,7 +651,7 @@
             // 获取价格区间
             getPriceList() {
                 var vm = this;
-                axios.get(Env.proHost + '/api/product/filter_price').then(function (res) {
+                axios.get(proHost + '/api/product/filter_price').then(function (res) {
                     var data = res.data;
                     if (data.code === '1') {
                         vm.priceList = data.data;
@@ -720,7 +744,7 @@
                 urlParams.type_id = vm.detailData.type_id;
                 urlParams.brand_id = vm.detailData.brand_id;
                 urlParams.model_id = vm.detailData.model_id;
-                axios.get(Env.proHost + '/api/product/filter_attr', {params: urlParams}).then(function (res) {
+                axios.get(proHost + '/api/product/filter_attr', {params: urlParams}).then(function (res) {
                     var data = res.data;
                     if (data.code === '1') {
                         vm.selectData = data.data.main;
@@ -872,7 +896,7 @@
                 var params = Object.assign({}, vm.listQuery);
                 params.activity_id = vm.activityId;
                 vm.isLoad = false;
-                axios.get(Env.proHost + '/api/activity/activity_detail_product_list', {params: params}).then(function (res) {
+                axios.get(proHost + '/api/activity/activity_detail_product_list', {params: params}).then(function (res) {
                     var data = res.data;
 
                     if (data.code === '1') {
