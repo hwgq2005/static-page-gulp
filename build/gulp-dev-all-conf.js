@@ -10,7 +10,10 @@ const runSequence = require('run-sequence');
 const sass = require('gulp-sass');
 const autoprefixer = require('gulp-autoprefixer');
 const browserSync = require('browser-sync').create();
-const preprocess = require("gulp-preprocess");
+const processor = require("./plugins/processor");
+
+const ENV = process.env.NODE_ENV || 'development';
+const EnvConfig = require("../config/config." + (ENV == "development" ? "dev" : "build"));
 
 const {
     basePath,
@@ -18,8 +21,6 @@ const {
     outBasePath,
     outPath
 } = require('../config/config-path');
-
-const ENV = process.env.NODE_ENV || 'development';
 
 // 启动服务
 gulp.task('connect', function () {
@@ -35,12 +36,7 @@ gulp.task('connect', function () {
 
 gulp.task('html', function () {
     return gulp.src([devPath + '**/*.html'])
-        .pipe(preprocess({
-            context: {
-                // 此处可接受来自调用命令的 NODE_ENV 参数，默认为 development 开发测试环境
-                NODE_ENV: ENV
-            }
-        }))
+        .pipe(processor(EnvConfig))
         .pipe(gulp.dest(outPath))
         .pipe(browserSync.reload({
             stream: true
@@ -81,12 +77,7 @@ gulp.task("sass", function () {
 // 编译js
 gulp.task('js', function () {
     return gulp.src([devPath + '**/js/*.js'])
-        .pipe(preprocess({
-            context: {
-                // 此处可接受来自调用命令的 NODE_ENV 参数，默认为 development 开发测试环境
-                NODE_ENV: ENV
-            }
-        }))
+        .pipe(processor(EnvConfig))
         .pipe(babel())
         .pipe(gulp.dest(outPath))
         .pipe(browserSync.reload({

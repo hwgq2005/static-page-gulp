@@ -12,9 +12,7 @@
     "new": "node config/bin/new.js",
     "help": "node config/bin/help.js"
   },
-  "dependencies": {
-    "node-notifier": "^6.0.0"
-  },
+  "dependencies": {},
   "devDependencies": {
     "babel-core": "^6.26.3",
     "babel-preset-env": "^1.7.0",
@@ -36,7 +34,6 @@
     "gulp-javascript-obfuscator": "^1.1.6",
     "gulp-mini-css": "0.0.3",
     "gulp-notify": "^2.2.0",
-    "gulp-preprocess": "^3.0.3",
     "gulp-rename": "^1.2.2",
     "gulp-rev": "^7.1.0",
     "gulp-rev-collector": "^1.0.5",

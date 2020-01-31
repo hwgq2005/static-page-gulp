@@ -1,9 +1,9 @@
-var through = require('through2');
+const through = require('through2');
 
 /**
  * 处理内容
- * @param params
- * @param content
+ * @param params 参数
+ * @param content 文件内容
  * @returns {*}
  */
 function processor(params, content) {
@@ -11,14 +11,14 @@ function processor(params, content) {
         let reg = '/' + 'Env.' + item + '/g';
         content = content.replace(eval(reg), "'" + params[item] + "'");
     }
-    return new Buffer(content);
+    return Buffer.from(content);
 }
 
 // params：调用插件传入的参数
 module.exports = (params) => {
 
     // 创建stream对象，每个文件都会经过这个stream对象
-    var stream = through.obj(function (file, encoding, callback) {
+    return through.obj(function (file, encoding, callback) {
         // 如果file类型不是buffer 退出不做处理
         if (!file.isBuffer()) {
             return callback();
@@ -33,6 +33,4 @@ module.exports = (params) => {
         // 告诉stream引擎，已经处理完成
         callback();
     });
-
-    return stream;
 };

@@ -6,7 +6,6 @@
 
 const gulp = require('gulp');
 const clean = require('gulp-clean');
-const preprocess = require("gulp-preprocess");
 
 const {
     basePath,
@@ -39,11 +38,6 @@ gulp.task('copy', function () {
         '!./src/pages/**'
     ])
         .pipe(jsFilter)
-        .pipe(preprocess({
-            context: {
-                NODE_ENV: ENV
-            }
-        }))
         .pipe(gulp.dest(outBasePath))
         .pipe(jsFilter.restore)
         .pipe(gulp.dest(outBasePath));
