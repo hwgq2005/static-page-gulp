@@ -21,7 +21,7 @@ const browserSync = require('browser-sync').create();
 const processor = require("./plugins/processor");
 
 const ENV = process.env.NODE_ENV || 'development';
-const EnvConfig = require("../config/config." + (ENV == "development" ? "dev" : "build"));
+const EnvConfig = require("../config/" + (ENV == "development" ? "dev" : "build") + '.env');
 
 const {
     basePath,

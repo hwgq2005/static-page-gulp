@@ -29,7 +29,7 @@ const {
 } = require('../config/config-path');
 
 const ENV = process.env.NODE_ENV || 'development';
-const EnvConfig = require("../config/config." + (ENV == "development" ? "dev" : "build"));
+const EnvConfig = require("../config/" + (ENV == "development" ? "dev" : "build") + '.env');
 
 // 启动服务
 gulp.task('connect', function () {
