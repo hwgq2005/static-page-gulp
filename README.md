@@ -68,21 +68,22 @@ npm run build
 
 #### 6.不同环境应用不同的域名
 
-使用的是`gulp-preprocess`包，具体文档：https://www.npmjs.com/package/gulp-preprocess
+可在配置文件添加自己想要的变量，.dev对应测试环境，pre对应预发布环境，.build对应整数环境。
 
-判断案例如下：
 ```
-// @if NODE_ENV='development'
-var actHost = 'http://testact.zhaoliangji.com'; // 测试环境
-// @endif
+var env = {
+    actHost: 'http://testact.zhaoliangji.com',
+    proHost: 'http://testproduct.zhaoliangji.com',
+    phost: 'http://testpanda.huodao.hk',
+    staticHost: 'http://testfrontstatic.zhaoliangji.com'
+};
 
-// @if NODE_ENV='production'
-var actHost = 'https://act.zhaoliangji.com'; // 正式环境
-// @endif
+module.exports = env;
+```
 
-// @if NODE_ENV='pre'
-var actHost = 'https://preact.zhaoliangji.com'; // 预发布
-// @endif
+调用方式`Env`加定义的变量名称，如下：
+```
+Env.actHost + '/api'
 ```
 #### 7.反馈
 
